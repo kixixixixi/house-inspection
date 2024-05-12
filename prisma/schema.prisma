@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model House {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  name       String
+  latitude   Float
+  longitude  Float
+  altitude   Float?
+  floorCount Int      @default(1)
+  roomCount  Int      @default(1)
+  stepCount  Int      @default(1)
+  structure String @default("[]")
+}
