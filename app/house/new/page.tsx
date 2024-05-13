@@ -4,9 +4,9 @@ import type { FormEvent } from "react"
 import { useEffect, useState } from "react"
 import { Button, Field, Input } from "components/elements"
 import { NextPage } from "next"
-import { prisma } from "lib/db"
 import { Prisma } from "@prisma/client/"
 import { Map } from "components/modules/map"
+import ky from "ky"
 
 const HouseNewPage: NextPage = () => {
   const [createInput, setCreateInput] = useState<Prisma.HouseCreateInput>({
@@ -19,11 +19,10 @@ const HouseNewPage: NextPage = () => {
   })
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await prisma.house.create({
-      data: {
-        ...createInput,
-      },
-    })
+    const response = await ky
+      .post("/api/house", { json: { ...createInput } })
+      .json()
+    console.log(response)
   }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
