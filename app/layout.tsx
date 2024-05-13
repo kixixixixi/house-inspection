@@ -16,7 +16,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body style={{ ...font.style }}>{children}</body>
+      <body style={{ ...font.style }}>
+        <header
+          style={{
+            background: "#277",
+            color: "#eee",
+            padding: ".5rem",
+            position: "fixed",
+            width: "100%",
+          }}
+        >
+          公共住宅点検アプリ
+        </header>
+        <main
+          style={{
+            height: "100%",
+            minHeight: "100dvh",
+          }}
+        >
+          {children}
+        </main>
+      </body>
     </html>
   )
 }

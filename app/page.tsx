@@ -1,14 +1,13 @@
 import { Button } from "@/components/elements"
+import { LinkButton } from "@/components/elements/link"
 import { NextPage } from "next"
+import { prisma } from "@/lib/db"
 
-const Home: NextPage = () => {
+const Home: NextPage = async () => {
+  const houseList = await prisma.house.findMany()
+
   return (
-    <main
-      style={{
-        height: "100%",
-        minHeight: "100dvh",
-      }}
-    >
+    <>
       <section
         style={{
           alignItems: "center",
@@ -32,11 +31,16 @@ const Home: NextPage = () => {
             gap: "1rem",
           }}
         >
-          <Button>新規作成</Button>
+          <LinkButton href="/house/new">新規作成</LinkButton>
           <Button>閲覧・編集</Button>
         </div>
+        <div>
+          {houseList.map((house) => (
+            <div key={house.id}>{house.name}</div>
+          ))}
+        </div>
       </section>
-    </main>
+    </>
   )
 }
 
