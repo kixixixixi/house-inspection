@@ -6,6 +6,7 @@ import { Button, Field, Input } from "components/elements"
 import { NextPage } from "next"
 import { prisma } from "lib/db"
 import { Prisma } from "@prisma/client/"
+import { Map } from "components/modules/map"
 
 const HouseNewPage: NextPage = () => {
   const [createInput, setCreateInput] = useState<Prisma.HouseCreateInput>({
@@ -34,6 +35,7 @@ const HouseNewPage: NextPage = () => {
         }}
       >
         <h2>新規作成</h2>
+        <Map latitude={35.68} longitude={139.76} />
         <form
           onSubmit={handleSubmit}
           style={{
