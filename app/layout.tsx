@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { M_PLUS_1 } from "next/font/google"
 import "./globals.css"
+import Link from "next/link"
 
 const font = M_PLUS_1({ subsets: ["latin"] })
 
@@ -24,9 +25,10 @@ export default function RootLayout({
             padding: ".5rem",
             position: "fixed",
             width: "100%",
+            zIndex: "2000",
           }}
         >
-          公共住宅点検アプリ
+          <Link href={"/"}>公共住宅点検アプリ</Link>
         </header>
         <main
           style={{
