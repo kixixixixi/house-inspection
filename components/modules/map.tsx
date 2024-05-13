@@ -1,13 +1,14 @@
 "use client"
 
 import { useEffect, useState, type ComponentProps, type FC } from "react"
-import { MapContainer, TileLayer } from "react-leaflet"
-import { LatLng } from "leaflet"
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import { LatLng, icon } from "leaflet"
 import "leaflet/dist/leaflet.css"
+import iconImage from "leaflet/dist/images/marker-icon.png"
 
 export const Map: FC<
-  ComponentProps<"div"> & { latitude: number; longitude: number }
-> = ({ latitude, longitude, style, ...props }) => {
+  ComponentProps<"div"> & { latitude: number; longitude: number; name?: string }
+> = ({ latitude, longitude, name, style, ...props }) => {
   const [position, setPosition] = useState<LatLng>()
   useEffect(() => {
     if (window) setPosition(new LatLng(latitude, longitude))
@@ -26,6 +27,14 @@ export const Map: FC<
             attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
             url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
           />
+          <Marker
+            position={position}
+            icon={icon({
+              iconUrl: iconImage.src,
+            })}
+          >
+            <Popup>{name ?? "物件の位置"}</Popup>
+          </Marker>
         </MapContainer>
       )}
     </div>

@@ -35,7 +35,11 @@ const HouseNewPage: NextPage = () => {
         }}
       >
         <h2>新規作成</h2>
-        <Map latitude={35.68} longitude={139.76} />
+        <Map
+          latitude={35.68}
+          longitude={139.76}
+          name={createInput.name.length > 0 ? createInput.name : undefined}
+        />
         <form
           onSubmit={handleSubmit}
           style={{
