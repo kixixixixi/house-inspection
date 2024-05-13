@@ -25,7 +25,7 @@ export const Input: FC<ComponentProps<"input">> = ({ style, ...props }) => (
       fontSize: "1rem",
       fontWeight: "bold",
       outline: "none",
-      padding: ".5rem 1.5rem",
+      padding: ".5rem 1rem",
       ...style,
     }}
     {...props}
@@ -38,7 +38,7 @@ export const Field: FC<ComponentProps<"fieldset">> = ({ style, ...props }) => (
       border: "none",
       display: "flex",
       flexFlow: "column",
-      padding: ".5rem 1.5rem",
+      padding: ".5rem",
       ...style,
     }}
     {...props}

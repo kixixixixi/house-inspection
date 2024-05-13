@@ -7,8 +7,13 @@ import "leaflet/dist/leaflet.css"
 import iconImage from "leaflet/dist/images/marker-icon.png"
 
 export const Map: FC<
-  ComponentProps<"div"> & { latitude: number; longitude: number; name?: string }
-> = ({ latitude, longitude, name, style, ...props }) => {
+  ComponentProps<"div"> & {
+    latitude: number
+    longitude: number
+    name?: string
+    onChangePosition: (position: LatLng) => void
+  }
+> = ({ latitude, longitude, name, onChangePosition, style, ...props }) => {
   const [position, setPosition] = useState<LatLng>()
   useEffect(() => {
     if (window) setPosition(new LatLng(latitude, longitude))
@@ -32,6 +37,14 @@ export const Map: FC<
             icon={icon({
               iconUrl: iconImage.src,
             })}
+            draggable={true}
+            eventHandlers={{
+              dragend: (event) => {
+                const newPosition = event.target.getLatLng()
+                setPosition(newPosition)
+                onChangePosition(newPosition)
+              },
+            }}
           >
             <Popup>{name ?? "物件の位置"}</Popup>
           </Marker>

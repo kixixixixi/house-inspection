@@ -10,8 +10,8 @@ import { Map } from "components/modules/map"
 
 const HouseNewPage: NextPage = () => {
   const [createInput, setCreateInput] = useState<Prisma.HouseCreateInput>({
-    latitude: 0,
-    longitude: 0,
+    latitude: 35.68,
+    longitude: 139.76,
     name: "",
     floorCount: 1,
     roomCount: 1,
@@ -36,9 +36,16 @@ const HouseNewPage: NextPage = () => {
       >
         <h2>新規作成</h2>
         <Map
-          latitude={35.68}
-          longitude={139.76}
+          latitude={createInput.latitude}
+          longitude={createInput.longitude}
           name={createInput.name.length > 0 ? createInput.name : undefined}
+          onChangePosition={(position) =>
+            setCreateInput({
+              ...createInput,
+              latitude: position.lat,
+              longitude: position.lng,
+            })
+          }
         />
         <form
           onSubmit={handleSubmit}
@@ -47,6 +54,27 @@ const HouseNewPage: NextPage = () => {
             flexFlow: "column",
           }}
         >
+          <Field>
+            <label>緯度/経度</label>
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                justifyContent: "space-between",
+              }}
+            >
+              <Input
+                readOnly
+                value={createInput.latitude}
+                style={{ width: "48%" }}
+              />
+              <Input
+                readOnly
+                value={createInput.longitude}
+                style={{ width: "48%" }}
+              />
+            </div>
+          </Field>
           <Field>
             <label>物件名</label>
             <Input
