@@ -1,7 +1,7 @@
 "use client"
 
 import type { FormEvent } from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Field, Input } from "components/elements"
 import { NextPage } from "next"
 import { prisma } from "lib/db"
@@ -25,6 +25,16 @@ const HouseNewPage: NextPage = () => {
       },
     })
   }
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setCreateInput({
+        ...createInput,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      })
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <>
       <section

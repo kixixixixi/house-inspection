@@ -1,10 +1,17 @@
 "use client"
 
 import { useEffect, useState, type ComponentProps, type FC } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import { LatLng, icon } from "leaflet"
 import "leaflet/dist/leaflet.css"
 import iconImage from "leaflet/dist/images/marker-icon.png"
+
+const ChangeMapCenter = ({ position }: { position: LatLng }) => {
+  const map = useMap()
+  map.panTo(position)
+
+  return null
+}
 
 export const Map: FC<
   ComponentProps<"div"> & {
@@ -16,7 +23,10 @@ export const Map: FC<
 > = ({ latitude, longitude, name, onChangePosition, style, ...props }) => {
   const [position, setPosition] = useState<LatLng>()
   useEffect(() => {
-    if (window) setPosition(new LatLng(latitude, longitude))
+    if (window) {
+      const newPosition = new LatLng(latitude, longitude)
+      setPosition(newPosition)
+    }
   }, [latitude, longitude])
   return (
     <div style={{ height: "100vw", maxHeight: "50vh", ...style }} {...props}>
@@ -47,6 +57,7 @@ export const Map: FC<
             }}
           >
             <Popup>{name ?? "物件の位置"}</Popup>
+            <ChangeMapCenter position={position} />
           </Marker>
         </MapContainer>
       )}
