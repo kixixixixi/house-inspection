@@ -1,5 +1,6 @@
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
+import { Button } from "@/components/elements"
 
 const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
   params: { id },
@@ -33,6 +34,38 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
             <dd>{house.longitude}</dd>
           </div>
         </dl>
+        <div
+          style={{
+            display: "flex",
+            flexFlow: "column",
+            gap: ".25rem",
+          }}
+        >
+          {[...Array(house.floorCount).keys()]
+            .map((i) => house.floorCount - i)
+            .map((i) => (
+              <div
+                key={i}
+                style={{ display: "flex", gap: ".25rem", padding: ".5rem" }}
+              >
+                <div>{i}階</div>
+                {[...Array(house.roomCount).keys()]
+                  .map((j) => j + 1)
+                  .map((j) => (
+                    <div key={j}>
+                      <Button>部屋{j}</Button>
+                    </div>
+                  ))}
+                {[...Array(house.stepCount).keys()]
+                  .map((j) => j + 1)
+                  .map((j) => (
+                    <div key={j}>
+                      <Button>階段{j}</Button>
+                    </div>
+                  ))}
+              </div>
+            ))}
+        </div>
       </section>
     </>
   )
