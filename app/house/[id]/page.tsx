@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import { prisma } from "@/lib/db"
 import { Button } from "@/components/elements"
 import { type ComponentProps, type FC } from "react"
-import { DeleteDialog } from "@/components/modules/delete-dialog"
+import { HouseDelete } from "@/components/services/house-delete"
 
 export const RowSection: FC<ComponentProps<"section">> = ({
   style,
@@ -71,7 +71,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
             </div>
           </dl>
           <div>
-            <DeleteDialog />
+            <HouseDelete houseId={house.id} />
           </div>
         </div>
         <div

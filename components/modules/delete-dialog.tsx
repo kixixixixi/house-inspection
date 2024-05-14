@@ -2,7 +2,9 @@
 import { useState, type ComponentProps, type FC } from "react"
 import { Button } from "components/elements"
 
-export const DeleteDialog: FC<ComponentProps<"div">> = ({ ...props }) => {
+export const DeleteDialog: FC<
+  ComponentProps<"div"> & { onSubmit: () => Promise<void> }
+> = ({ onSubmit, ...props }) => {
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState<boolean>(false)
 
   return (
@@ -37,7 +39,7 @@ export const DeleteDialog: FC<ComponentProps<"div">> = ({ ...props }) => {
               justifyContent: "center",
             }}
           >
-            <Button>削除</Button>
+            <Button onClick={async () => await onSubmit()}>削除</Button>
             <Button onClick={() => setIsOpenDeleteDialog(false)}>
               キャンセル
             </Button>
