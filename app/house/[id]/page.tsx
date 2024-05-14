@@ -1,6 +1,23 @@
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
 import { Button } from "@/components/elements"
+import type { ComponentProps, FC } from "react"
+
+export const RowSection: FC<ComponentProps<"section">> = ({
+  style,
+  ...props
+}) => (
+  <section
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      gap: ".25rem",
+      padding: ".5rem",
+      ...style,
+    }}
+    {...props}
+  />
+)
 
 const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
   params: { id },
@@ -39,31 +56,51 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
             display: "flex",
             flexFlow: "column",
             gap: ".25rem",
+            padding: "2rem 0",
           }}
         >
+          <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
+            外形・外構
+          </p>
+          <RowSection>
+            {[
+              "屋根",
+              "外壁南面",
+              "外壁北面",
+              "東妻面",
+              "西妻面",
+              "塗装・設備・外構",
+            ].map((label, i) => (
+              <div key={i}>
+                <Button>{label}</Button>
+              </div>
+            ))}
+          </RowSection>
+          <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
+            ユニット
+          </p>
           {[...Array(house.floorCount).keys()]
             .map((i) => house.floorCount - i)
             .map((i) => (
-              <div
-                key={i}
-                style={{ display: "flex", gap: ".25rem", padding: ".5rem" }}
-              >
+              <>
                 <div>{i}階</div>
-                {[...Array(house.roomCount).keys()]
-                  .map((j) => j + 1)
-                  .map((j) => (
-                    <div key={j}>
-                      <Button>部屋{j}</Button>
-                    </div>
-                  ))}
-                {[...Array(house.stepCount).keys()]
-                  .map((j) => j + 1)
-                  .map((j) => (
-                    <div key={j}>
-                      <Button>階段{j}</Button>
-                    </div>
-                  ))}
-              </div>
+                <RowSection key={i}>
+                  {[...Array(house.roomCount).keys()]
+                    .map((j) => j + 1)
+                    .map((j) => (
+                      <div key={j}>
+                        <Button>部屋{j}</Button>
+                      </div>
+                    ))}
+                  {[...Array(house.stepCount).keys()]
+                    .map((j) => j + 1)
+                    .map((j) => (
+                      <div key={j}>
+                        <Button>階段{j}</Button>
+                      </div>
+                    ))}
+                </RowSection>
+              </>
             ))}
         </div>
       </section>
