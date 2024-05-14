@@ -2,6 +2,7 @@ import { Button } from "@/components/elements"
 import { LinkButton } from "@/components/elements/link"
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
+import { HouseList } from "@/components/modules/house-list"
 
 const Home: NextPage = async () => {
   const houseList = await prisma.house.findMany()
@@ -35,9 +36,7 @@ const Home: NextPage = async () => {
           <Button>閲覧・編集</Button>
         </div>
         <div>
-          {houseList.map((house) => (
-            <div key={house.id}>{house.name}</div>
-          ))}
+          <HouseList list={houseList} />
         </div>
       </section>
     </>
