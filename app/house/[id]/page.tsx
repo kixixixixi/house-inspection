@@ -1,7 +1,8 @@
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
 import { Button } from "@/components/elements"
-import type { ComponentProps, FC } from "react"
+import { type ComponentProps, type FC } from "react"
+import { DeleteDialog } from "@/components/modules/delete-dialog"
 
 export const RowSection: FC<ComponentProps<"section">> = ({
   style,
@@ -70,7 +71,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
             </div>
           </dl>
           <div>
-            <Button>削除</Button>
+            <DeleteDialog />
           </div>
         </div>
         <div
