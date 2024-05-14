@@ -1,5 +1,12 @@
 import type { ComponentProps, FC } from "react"
 
+export const Container: FC<ComponentProps<"div">> = ({ style, ...props }) => (
+  <div
+    style={{ height: "100%", margin: "auto", maxWidth: "48rem", ...style }}
+    {...props}
+  />
+)
+
 export const Button: FC<ComponentProps<"button">> = ({ style, ...props }) => (
   <button
     style={{

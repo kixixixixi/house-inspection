@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { M_PLUS_1 } from "next/font/google"
 import "./globals.css"
 import Link from "next/link"
+import { Container } from "@/components/elements"
 
 const font = M_PLUS_1({ subsets: ["latin"] })
 
@@ -36,7 +37,7 @@ export default function RootLayout({
             minHeight: "100dvh",
           }}
         >
-          {children}
+          <Container>{children}</Container>
         </main>
       </body>
     </html>
