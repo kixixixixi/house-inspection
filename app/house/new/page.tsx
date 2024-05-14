@@ -3,7 +3,7 @@
 import type { FormEvent } from "react"
 import { useEffect, useState } from "react"
 import { Button, Field, Input } from "components/elements"
-import { NextPage } from "next"
+import type { NextPage } from "next"
 import { Prisma } from "@prisma/client/"
 import { Map } from "components/modules/map"
 import ky from "ky"
