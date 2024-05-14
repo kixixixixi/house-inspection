@@ -12,7 +12,7 @@ export const RowSection: FC<ComponentProps<"section">> = ({
       display: "flex",
       flexWrap: "wrap",
       gap: ".25rem",
-      padding: ".5rem",
+      padding: ".5rem 0",
       ...style,
     }}
     {...props}
@@ -29,28 +29,50 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
     <>
       <section
         style={{
-          padding: "4rem 1rem",
+          padding: "3rem 1rem",
         }}
       >
-        <hgroup>
+        <hgroup style={{ padding: "1rem 0" }}>
           <h1>{house.name}</h1>
-          <p>最終更新: {house.updatedAt.toLocaleString()}</p>
         </hgroup>
-        <dl
+        <div
           style={{
+            alignItems: "flex-end",
             display: "flex",
+            flexFlow: "row",
+            flexWrap: "wrap",
             gap: "1rem",
+            justifyContent: "space-between",
           }}
         >
+          <dl
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "1rem",
+            }}
+          >
+            <div>
+              <dt>緯度</dt>
+              <dd>{house.latitude}</dd>
+            </div>
+            <div>
+              <dt>経度</dt>
+              <dd>{house.longitude}</dd>
+            </div>
+            <div>
+              <dt>作成日時</dt>
+              <dd>{house.createdAt.toLocaleString()}</dd>
+            </div>
+            <div>
+              <dt>更新日時</dt>
+              <dd>{house.updatedAt.toLocaleString()}</dd>
+            </div>
+          </dl>
           <div>
-            <dt>緯度</dt>
-            <dd>{house.latitude}</dd>
+            <Button>削除</Button>
           </div>
-          <div>
-            <dt>経度</dt>
-            <dd>{house.longitude}</dd>
-          </div>
-        </dl>
+        </div>
         <div
           style={{
             display: "flex",
