@@ -1,4 +1,6 @@
-import type { ComponentProps, FC } from "react"
+"use client"
+
+import { useState, type ComponentProps, type FC } from "react"
 
 export const Container: FC<ComponentProps<"div">> = ({ style, ...props }) => (
   <div
@@ -7,21 +9,27 @@ export const Container: FC<ComponentProps<"div">> = ({ style, ...props }) => (
   />
 )
 
-export const Button: FC<ComponentProps<"button">> = ({ style, ...props }) => (
-  <button
-    style={{
-      background: "#277",
-      border: "none",
-      borderRadius: "1rem",
-      color: "#eee",
-      fontSize: "1rem",
-      fontWeight: "bold",
-      padding: ".5rem 1.5rem",
-      ...style,
-    }}
-    {...props}
-  ></button>
-)
+export const Button: FC<ComponentProps<"button">> = ({ style, ...props }) => {
+  const [isHover, setIsHover] = useState<boolean>(false)
+  return (
+    <button
+      style={{
+        background: isHover ? "#355" : "#277",
+        border: "none",
+        borderRadius: "1rem",
+        color: "#eee",
+        fontSize: "1rem",
+        fontWeight: "bold",
+        padding: ".5rem 1.5rem",
+        transition: ".2s",
+        ...style,
+      }}
+      onMouseEnter={() => setIsHover(true)}
+      onMouseOut={() => setIsHover(false)}
+      {...props}
+    ></button>
+  )
+}
 
 export const Input: FC<ComponentProps<"input">> = ({ style, ...props }) => (
   <input
