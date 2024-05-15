@@ -35,6 +35,7 @@ export default function RootLayout({
           style={{
             height: "100%",
             minHeight: "100dvh",
+            paddingTop: "2rem",
           }}
         >
           <Container>{children}</Container>

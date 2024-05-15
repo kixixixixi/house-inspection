@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { Button } from "@/components/elements"
 import { type ComponentProps, type FC } from "react"
 import { HouseDelete } from "@/components/services/house-delete"
+import { LinkButton } from "@/components/elements/link"
 
 export const RowSection: FC<ComponentProps<"section">> = ({
   style,
@@ -30,7 +31,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
     <>
       <section
         style={{
-          padding: "3rem 1rem",
+          padding: "1rem",
         }}
       >
         <hgroup style={{ padding: "1rem 0" }}>
@@ -95,7 +96,13 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
               "塗装・設備・外構",
             ].map((label, i) => (
               <div key={i}>
-                <Button>{label}</Button>
+                <LinkButton
+                  href={`/house/${house.id}/unit/new?type=outerior&index=${
+                    i + 1
+                  }`}
+                >
+                  {label}
+                </LinkButton>
               </div>
             ))}
           </RowSection>
@@ -112,14 +119,22 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
                     .map((j) => j + 1)
                     .map((j) => (
                       <div key={j}>
-                        <Button>部屋{j}</Button>
+                        <LinkButton
+                          href={`/house/${house.id}/unit/new?type=room&floor=${i}&index=${j}`}
+                        >
+                          部屋{j}
+                        </LinkButton>
                       </div>
                     ))}
                   {[...Array(house.stepCount).keys()]
                     .map((j) => j + 1)
                     .map((j) => (
                       <div key={j}>
-                        <Button>階段{j}</Button>
+                        <LinkButton
+                          href={`/house/${house.id}/unit/new?type=step&floor=${i}&index=${j}`}
+                        >
+                          階段{j}
+                        </LinkButton>
                       </div>
                     ))}
                 </RowSection>

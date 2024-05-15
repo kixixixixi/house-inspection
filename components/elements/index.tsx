@@ -4,28 +4,34 @@ import { useState, type ComponentProps, type FC } from "react"
 
 export const Container: FC<ComponentProps<"div">> = ({ style, ...props }) => (
   <div
-    style={{ height: "100%", margin: "auto", maxWidth: "48rem", ...style }}
+    style={{ height: "100%", margin: "auto", maxWidth: "64rem", ...style }}
     {...props}
   />
 )
 
-export const Button: FC<ComponentProps<"button">> = ({ style, ...props }) => {
-  const [isHover, setIsHover] = useState<boolean>(false)
+export const Button: FC<ComponentProps<"button"> & { selected?: boolean }> = ({
+  selected,
+  style,
+  ...props
+}) => {
+  const [tintColor, setTintColor] = useState<string>("#277")
   return (
     <button
       style={{
-        background: isHover ? "#355" : "#277",
-        border: "none",
-        borderRadius: "1rem",
-        color: "#eee",
+        background: selected ? "transparent" : tintColor,
+        border: "solid 2px",
+        borderColor: tintColor,
+        borderRadius: "2rem",
+        color: selected ? tintColor : "#eee",
+        cursor: "pointer",
         fontSize: "1rem",
         fontWeight: "bold",
-        padding: ".5rem 1.5rem",
+        padding: ".4rem 1.5rem",
         transition: ".2s",
         ...style,
       }}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseOut={() => setIsHover(false)}
+      onMouseEnter={() => setTintColor("#355")}
+      onMouseOut={() => setTintColor("#277")}
       {...props}
     ></button>
   )
