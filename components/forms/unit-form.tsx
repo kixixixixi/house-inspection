@@ -24,7 +24,7 @@ export const UnitForm: FC<
   ComponentProps<"form"> & {
     house: House
     type: string
-    floor?: number
+    floor: number
     index: number
     name: string
     unit?: Unit & { checks?: Check[] }

@@ -50,7 +50,7 @@ const HouseIdUnitNewPage: NextPage<{
         </hgroup>
         <UnitForm
           type={type}
-          floor={floor ? parseInt(`${floor}`) : undefined}
+          floor={floor ? parseInt(`${floor}`) : 1}
           index={parseInt(index)}
           house={house}
           name={name ?? "未設定"}
