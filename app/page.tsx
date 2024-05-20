@@ -5,7 +5,10 @@ import { prisma } from "@/lib/db"
 import { HouseList } from "@/components/modules/house-list"
 
 const Home: NextPage = async () => {
-  const houseList = await prisma.house.findMany()
+  const houseList = await prisma.house.findMany({
+    take: 3,
+    orderBy: { createdAt: "desc" },
+  })
 
   return (
     <>
