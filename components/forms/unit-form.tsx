@@ -6,6 +6,7 @@ import { ComponentProps, FC, FormEvent, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
 import { Check, House, Prisma, Unit } from "@prisma/client"
 import ky from "ky"
+import { useRouter } from "next/navigation"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
   <td
@@ -29,6 +30,7 @@ export const UnitForm: FC<
     unit?: Unit & { checks?: Check[] }
   }
 > = ({ house, type, floor, index, name, unit }) => {
+  const router = useRouter()
   const [createCheckInputList, setCreateCheckInputList] = useState<
     (Omit<Prisma.CheckCreateInput, "unit"> & { id?: number })[]
   >(unit?.checks ?? [])
@@ -65,6 +67,7 @@ export const UnitForm: FC<
         },
       })
     }
+    router.push(`/house/${house.id}`)
   }
   return (
     <>
