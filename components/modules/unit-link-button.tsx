@@ -5,7 +5,7 @@ import { House, Unit } from "@prisma/client"
 export const UnitLinkButton: FC<
   ComponentProps<"button"> & {
     unitType: string
-    floor?: number
+    floor: number
     index: number
     house: House & { units?: Unit[] }
     name?: string

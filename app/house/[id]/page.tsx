@@ -90,6 +90,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
                 <UnitLinkButton
                   unitType="outerior"
                   {...unit}
+                  floor={1}
                   house={house}
                 ></UnitLinkButton>
               </div>

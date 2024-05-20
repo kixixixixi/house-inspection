@@ -54,17 +54,18 @@ export const UnitForm: FC<
         json: body,
       })
     } else {
-      const response = await ky.post(`/api/unit`, {
-        json: {
-          name,
-          type,
-          floor,
-          index,
-          house: { connect: { ...house } },
-          checks: {
-            create: createCheckInputList,
-          },
+      const body: Prisma.UnitCreateInput = {
+        name,
+        type,
+        floor,
+        index,
+        house: { connect: { id: house.id } },
+        checks: {
+          create: createCheckInputList,
         },
+      }
+      const response = await ky.post(`/api/unit`, {
+        json: body,
       })
     }
     router.push(`/house/${house.id}`)

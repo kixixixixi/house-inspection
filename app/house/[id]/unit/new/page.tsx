@@ -17,10 +17,7 @@ const HouseIdUnitNewPage: NextPage<{
   )
     throw "Type error"
 
-  if (
-    type !== "outerior" &&
-    (!floor || typeof floor !== "string" || parseInt(floor) < 0)
-  )
+  if (!floor || typeof floor !== "string" || parseInt(floor) < 0)
     throw "Floor Error"
 
   if (!index || typeof index !== "string" || parseInt(index) < 0)
@@ -33,8 +30,8 @@ const HouseIdUnitNewPage: NextPage<{
     type == "outerior"
       ? OuteriorUnits.find((u) => u.index == parseInt(index))?.name
       : type == "room"
-      ? `部屋 ${floor}階 ${index}`
-      : `階段 ${floor}階 ${index}`
+      ? `部屋 ${index}`
+      : `階段 ${index}`
   return (
     <>
       <section
@@ -50,7 +47,7 @@ const HouseIdUnitNewPage: NextPage<{
         </hgroup>
         <UnitForm
           type={type}
-          floor={floor ? parseInt(`${floor}`) : 1}
+          floor={parseInt(floor)}
           index={parseInt(index)}
           house={house}
           name={name ?? "未設定"}
