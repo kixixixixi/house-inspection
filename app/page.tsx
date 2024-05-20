@@ -1,4 +1,3 @@
-import { Button } from "@/components/elements"
 import { LinkButton } from "@/components/elements/link"
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
@@ -36,7 +35,7 @@ const Home: NextPage = async () => {
           }}
         >
           <LinkButton href="/house/new">新規作成</LinkButton>
-          <Button>閲覧・編集</Button>
+          <LinkButton href="/house">閲覧・編集</LinkButton>
         </div>
         <div>
           <HouseList list={houseList} />
