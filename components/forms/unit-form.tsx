@@ -4,7 +4,7 @@ import { Button } from "components/elements"
 import { checkList } from "lib/constant/check-list"
 import { ComponentProps, FC, FormEvent, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
-import { House, Prisma } from "@prisma/client"
+import { Check, House, Prisma, Unit } from "@prisma/client"
 import ky from "ky"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
@@ -26,37 +26,45 @@ export const UnitForm: FC<
     floor?: number
     index: number
     name: string
+    unit?: Unit & { checks?: Check[] }
   }
-> = ({ house, type, floor, index, name }) => {
-  const [createInput, setCreateInput] = useState<Prisma.UnitCreateInput>({
-    name,
-    type,
-    floor,
-    index,
-    house: { connect: { ...house } },
-    checks: { connectOrCreate: [] },
-  })
+> = ({ house, type, floor, index, name, unit }) => {
   const [createCheckInputList, setCreateCheckInputList] = useState<
-    Omit<Prisma.CheckCreateInput, "unit">[]
-  >([])
+    (Omit<Prisma.CheckCreateInput, "unit"> & { id?: number })[]
+  >(unit?.checks ?? [])
   const handleSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const response = await ky.post(`/api/house/${house.id}/unit`, {
-      json: {
-        ...createInput,
+    if (unit) {
+      const body: Prisma.UnitUpdateInput = {
+        name,
         checks: {
-          create: createCheckInputList,
+          upsert: createCheckInputList.map((c) => ({
+            where: {
+              id: c.id,
+              unit_check_unique_key: { checkId: c.checkId, unitId: unit.id },
+            },
+            create: { checkId: c.checkId, rank: c.rank },
+            update: { rank: c.rank },
+          })),
         },
-      },
-    })
-    console.log(response)
-
-    setCreateInput({
-      ...createInput,
-      checks: {
-        create: createCheckInputList,
-      },
-    })
+      }
+      const response = await ky.patch(`/api/unit/${unit.id}`, {
+        json: body,
+      })
+    } else {
+      const response = await ky.post(`/api/unit`, {
+        json: {
+          name,
+          type,
+          floor,
+          index,
+          house: { connect: { ...house } },
+          checks: {
+            create: createCheckInputList,
+          },
+        },
+      })
+    }
   }
   return (
     <>
@@ -114,6 +122,9 @@ export const UnitForm: FC<
                             (c) => c.checkId != check.id
                           ),
                           {
+                            id: createCheckInputList.find(
+                              (c) => c.checkId == check.id
+                            )?.id,
                             checkId: check.id,
                             rank: value,
                           },

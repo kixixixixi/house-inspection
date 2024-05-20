@@ -1,20 +1,37 @@
-import { useSearchParams } from "next/navigation"
-
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
-import { Button } from "@/components/elements"
-
-const UnitTypes = ["outerior", "room", "step"] as const
+import Link from "next/link"
+import { UnitForm } from "@/components/forms/unit-form"
 
 const HouseIdUnitPage: NextPage<{
   params: { id: string; unitId: string }
 }> = async ({ params: { id, unitId } }) => {
-  const house = await prisma.house.findUniqueOrThrow({
-    where: { id: parseInt(id) },
+  const unit = await prisma.unit.findUniqueOrThrow({
+    where: { id: parseInt(unitId) },
+    include: { house: true, checks: true },
   })
   return (
     <>
-      <section></section>
+      <section
+        style={{
+          padding: ".5rem",
+        }}
+      >
+        <hgroup>
+          <p>
+            <Link href={`/house/${unit.house.id}`}>{unit.house.name}</Link>
+          </p>
+          <h1>{unit.name}</h1>
+        </hgroup>
+        <UnitForm
+          house={unit.house}
+          type={unit.type}
+          floor={unit.floor}
+          index={unit.index}
+          name={unit.name}
+          unit={unit}
+        />
+      </section>
     </>
   )
 }
