@@ -21,5 +21,37 @@ model House {
   floorCount Int      @default(1)
   roomCount  Int      @default(1)
   stepCount  Int      @default(1)
-  structure String @default("[]")
+  structure  String   @default("[]")
+
+  units Unit[]
+}
+
+model Unit {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  houseId   Int
+  name      String
+  type      String
+  floor     Int      @default(1)
+  index     Int
+
+  house  House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  checks Check[]
+
+  @@unique([houseId, type, floor, index], name: "unit_unique_key")
+}
+
+model Check {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  unitId    Int
+  rank      String?
+  checkId   Int
+  isHidden  Boolean  @default(false)
+
+  unit Unit @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  @@unique([checkId, unitId], name: "unit_check_unique_key")
 }
