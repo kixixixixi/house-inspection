@@ -5,10 +5,7 @@ import { HouseDelete } from "@/components/services/house-delete"
 import { OuteriorUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
 
-export const RowSection: FC<ComponentProps<"section">> = ({
-  style,
-  ...props
-}) => (
+const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
     style={{
       display: "flex",

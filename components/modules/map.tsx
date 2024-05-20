@@ -13,7 +13,7 @@ const ChangeMapCenter = ({ position }: { position: LatLng }) => {
   return null
 }
 
-export const Map: FC<
+const Map: FC<
   ComponentProps<"div"> & {
     latitude: number
     longitude: number
@@ -64,3 +64,5 @@ export const Map: FC<
     </div>
   )
 }
+
+export default Map

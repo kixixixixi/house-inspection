@@ -5,8 +5,11 @@ import { useEffect, useState } from "react"
 import { Button, Field, Input } from "components/elements"
 import type { NextPage } from "next"
 import { Prisma } from "@prisma/client/"
-import { Map } from "components/modules/map"
 import ky from "ky"
+import dynamic from "next/dynamic"
+const Map = dynamic(() => import("components/modules/map"), {
+  ssr: false,
+})
 
 const HouseNewPage: NextPage = () => {
   const [createInput, setCreateInput] = useState<Prisma.HouseCreateInput>({
