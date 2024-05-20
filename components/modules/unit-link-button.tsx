@@ -19,7 +19,7 @@ export const UnitLinkButton: FC<
       href={
         unit
           ? `/house/${house.id}/unit/${unit.id}`
-          : `/house/${house.id}/unit/new?type=step&floor=${floor}&index=${index}`
+          : `/house/${house.id}/unit/new?type=${unitType}&floor=${floor}&index=${index}`
       }
       selected={!!unit}
       {...props}
