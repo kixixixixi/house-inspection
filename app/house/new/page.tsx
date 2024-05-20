@@ -7,11 +7,13 @@ import type { NextPage } from "next"
 import { Prisma } from "@prisma/client/"
 import ky from "ky"
 import dynamic from "next/dynamic"
+import { useRouter } from "next/navigation"
 const Map = dynamic(() => import("components/modules/map"), {
   ssr: false,
 })
 
 const HouseNewPage: NextPage = () => {
+  const router = useRouter()
   const [createInput, setCreateInput] = useState<Prisma.HouseCreateInput>({
     latitude: 35.68,
     longitude: 139.76,
@@ -22,10 +24,8 @@ const HouseNewPage: NextPage = () => {
   })
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const response = await ky
-      .post("/api/house", { json: { ...createInput } })
-      .json()
-    console.log(response)
+    await ky.post("/api/house", { json: { ...createInput } }).json()
+    router.push("/")
   }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
