@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model House {
@@ -21,7 +22,7 @@ model House {
   floorCount Int      @default(1)
   roomCount  Int      @default(1)
   stepCount  Int      @default(1)
-  structure  String   @default("[]")
+  structure  Json?
 
   units Unit[]
 }
