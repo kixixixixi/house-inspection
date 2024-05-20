@@ -1,9 +1,9 @@
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
-import { Button } from "@/components/elements"
 import { type ComponentProps, type FC } from "react"
 import { HouseDelete } from "@/components/services/house-delete"
-import { LinkButton } from "@/components/elements/link"
+import { OuteriorUnits } from "@/lib/constant/unit"
+import { UnitLinkButton } from "@/components/modules/unit-link-button"
 
 export const RowSection: FC<ComponentProps<"section">> = ({
   style,
@@ -26,6 +26,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
 }) => {
   const house = await prisma.house.findUniqueOrThrow({
     where: { id: parseInt(id) },
+    include: { units: true },
   })
   return (
     <>
@@ -87,22 +88,13 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
             外形・外構
           </p>
           <RowSection>
-            {[
-              "屋根",
-              "外壁南面",
-              "外壁北面",
-              "東妻面",
-              "西妻面",
-              "塗装・設備・外構",
-            ].map((label, i) => (
-              <div key={i}>
-                <LinkButton
-                  href={`/house/${house.id}/unit/new?type=outerior&index=${
-                    i + 1
-                  }`}
-                >
-                  {label}
-                </LinkButton>
+            {OuteriorUnits.map((unit) => (
+              <div key={unit.index}>
+                <UnitLinkButton
+                  unitType="outerior"
+                  {...unit}
+                  house={house}
+                ></UnitLinkButton>
               </div>
             ))}
           </RowSection>
@@ -119,22 +111,24 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = async ({
                     .map((j) => j + 1)
                     .map((j) => (
                       <div key={j}>
-                        <LinkButton
-                          href={`/house/${house.id}/unit/new?type=room&floor=${i}&index=${j}`}
-                        >
-                          部屋{j}
-                        </LinkButton>
+                        <UnitLinkButton
+                          unitType="room"
+                          index={j}
+                          floor={i}
+                          house={house}
+                        ></UnitLinkButton>
                       </div>
                     ))}
                   {[...Array(house.stepCount).keys()]
                     .map((j) => j + 1)
                     .map((j) => (
                       <div key={j}>
-                        <LinkButton
-                          href={`/house/${house.id}/unit/new?type=step&floor=${i}&index=${j}`}
-                        >
-                          階段{j}
-                        </LinkButton>
+                        <UnitLinkButton
+                          unitType="step"
+                          index={j}
+                          floor={i}
+                          house={house}
+                        ></UnitLinkButton>
                       </div>
                     ))}
                 </RowSection>

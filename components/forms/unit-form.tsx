@@ -5,6 +5,7 @@ import { checkList } from "lib/constant/check-list"
 import { ComponentProps, FC, FormEvent, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
 import { House, Prisma } from "@prisma/client"
+import ky from "ky"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
   <td
@@ -40,6 +41,15 @@ export const UnitForm: FC<
   >([])
   const handleSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const response = await ky.post(`/api/house/${house.id}/unit`, {
+      json: {
+        ...createInput,
+        checks: {
+          create: createCheckInputList,
+        },
+      },
+    })
+    console.log(response)
 
     setCreateInput({
       ...createInput,
