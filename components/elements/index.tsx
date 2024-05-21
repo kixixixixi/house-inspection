@@ -26,6 +26,7 @@ export const Button: FC<ComponentProps<"button"> & { selected?: boolean }> = ({
         cursor: "pointer",
         fontSize: "1rem",
         fontWeight: "bold",
+        maxHeight: "2.5rem",
         padding: ".4rem 1.5rem",
         transition: ".2s",
         ...style,

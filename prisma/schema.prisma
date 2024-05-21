@@ -36,9 +36,11 @@ model Unit {
   type      String
   floor     Int      @default(1)
   index     Int
+  comment   String?
 
   house  House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
   checks Check[]
+  images Image[]
 
   @@unique([houseId, type, floor, index], name: "unit_unique_key")
 }
@@ -55,4 +57,14 @@ model Check {
   unit Unit @relation(fields: [unitId], references: [id], onDelete: Cascade)
 
   @@unique([checkId, unitId], name: "unit_check_unique_key")
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  unitId    Int
+  unit      Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  base64    String
+  comment   String?
 }
