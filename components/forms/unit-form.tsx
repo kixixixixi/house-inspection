@@ -9,6 +9,7 @@ import ky from "ky"
 import { useRouter } from "next/navigation"
 import { InputFileButton } from "../elements/form"
 import { resizeImage } from "@/lib/file"
+import { ImageDialog } from "../modules/image-dialog"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
   <td
@@ -124,16 +125,12 @@ export const UnitForm: FC<
         >
           {images.map((image, i) => (
             <div key={i}>
-              <figure
-                style={{
-                  backgroundImage: `url(${image.base64})`,
-                  backgroundPosition: "center",
-                  backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                  height: "8rem",
-                  width: "8rem",
+              <ImageDialog
+                image={image}
+                onDelete={async () => {
+                  setImages(images.filter((i) => i.base64 !== image.base64))
                 }}
-              ></figure>
+              />
             </div>
           ))}
           <InputFileButton
