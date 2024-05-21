@@ -42,8 +42,8 @@ const HouseNewPage: NextPage = () => {
       <section
         style={{
           margin: "auto",
-          maxWidth: "42rem",
-          padding: "4rem 1rem",
+          maxWidth: "64rem",
+          padding: "2rem 1rem",
         }}
       >
         <h2>新規作成</h2>
