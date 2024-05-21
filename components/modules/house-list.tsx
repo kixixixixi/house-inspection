@@ -9,12 +9,21 @@ export const HouseList: FC<ComponentProps<"div"> & { list: House[] }> = ({
   return (
     <div {...props}>
       <table style={{ width: "100%" }}>
+        <thead>
+          <tr>
+            <td>名称</td>
+            <td>作成日時/更新日時</td>
+          </tr>
+        </thead>
         <tbody>
-          {list.map((house) => (
-            <tr key={house.id}>
+          {list.map((house, i) => (
+            <tr
+              key={house.id}
+              style={{ background: i % 2 == 0 ? "#ececec" : "#e6e6e6" }}
+            >
               <th
                 style={{
-                  padding: "1rem",
+                  padding: ".25rem",
                 }}
               >
                 <Link href={`/house/${house.id}`}>{house.name}</Link>
@@ -25,6 +34,7 @@ export const HouseList: FC<ComponentProps<"div"> & { list: House[] }> = ({
                     display: "flex",
                     flexWrap: "wrap",
                     gap: ".25rem",
+                    padding: ".25rem",
                   }}
                 >
                   <p>{house.updatedAt.toLocaleString()}</p>
