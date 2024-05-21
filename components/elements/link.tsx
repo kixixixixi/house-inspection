@@ -16,3 +16,19 @@ export const LinkButton: FC<
     />
   )
 }
+
+export const RefreshTextButton: FC<ComponentProps<"a">> = ({
+  style,
+  ...props
+}) => {
+  return (
+    <a
+      onClick={() => window.location.reload()}
+      style={{
+        cursor: "pointer",
+        ...style,
+      }}
+      {...props}
+    ></a>
+  )
+}

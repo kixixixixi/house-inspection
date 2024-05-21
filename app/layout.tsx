@@ -3,6 +3,7 @@ import { M_PLUS_1 } from "next/font/google"
 import "./globals.css"
 import Link from "next/link"
 import { Container } from "@/components/elements"
+import { RefreshTextButton } from "@/components/elements/link"
 
 const font = M_PLUS_1({ subsets: ["latin"] })
 
@@ -23,13 +24,16 @@ export default function RootLayout({
           style={{
             background: "#277",
             color: "#eee",
-            padding: ".5rem",
+            display: "flex",
+            justifyContent: "space-between",
+            padding: ".75rem",
             position: "fixed",
             width: "100%",
             zIndex: "2000",
           }}
         >
           <Link href={"/"}>公共住宅点検アプリ</Link>
+          <RefreshTextButton>更新</RefreshTextButton>
         </header>
         <main
           style={{
