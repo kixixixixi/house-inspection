@@ -127,7 +127,9 @@ export const UnitForm: FC<
               <figure
                 style={{
                   backgroundImage: `url(${image.base64})`,
+                  backgroundPosition: "center",
                   backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
                   height: "8rem",
                   width: "8rem",
                 }}
