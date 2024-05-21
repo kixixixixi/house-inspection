@@ -13,3 +13,11 @@ export const PATCH = async (
   })
   return NextResponse.json({ unit })
 }
+
+export const DELETE = async (
+  request: NextRequest,
+  { params: { id } }: { params: { id: string } }
+): Promise<NextResponse<{ message: string }>> => {
+  await prisma.unit.delete({ where: { id: parseInt(id) } })
+  return NextResponse.json({ message: "削除しました" })
+}
