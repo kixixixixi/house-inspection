@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "lib/db"
 
 export const GET = async (request: NextRequest): Promise<NextResponse> => {
-  const houseList = await prisma.house.findMany()
+  const houseList = await prisma.house.findMany({
+    orderBy: { createdAt: "desc" },
+  })
   return NextResponse.json({
     houseList,
   })

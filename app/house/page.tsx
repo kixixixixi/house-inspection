@@ -1,13 +1,22 @@
-import { Button } from "@/components/elements"
-import { LinkButton } from "@/components/elements/link"
+"use client"
+
 import { NextPage } from "next"
 import { prisma } from "@/lib/db"
 import { HouseList } from "@/components/modules/house-list"
+import { House } from "@prisma/client"
+import { useEffect, useState } from "react"
+import ky from "ky"
 
-const HousePage: NextPage = async () => {
-  const houseList = await prisma.house.findMany({
-    orderBy: { createdAt: "desc" },
-  })
+const HousePage: NextPage = () => {
+  const [houseList, setHouseList] = useState<House[]>([])
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await ky.get(`/api/house`)
+      const { houseList } = await response.json<{ houseList: House[] }>()
+      setHouseList(houseList)
+    }
+    fetch()
+  }, [])
 
   return (
     <>
