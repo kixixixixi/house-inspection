@@ -36,7 +36,7 @@ export const ImageDialog: FC<
             inlineSize: "min(42rem, 90vw)",
             inset: 0,
             margin: "auto",
-            padding: "2rem",
+            padding: "1rem",
             placeContent: "center",
           }}
         >
@@ -46,7 +46,7 @@ export const ImageDialog: FC<
               backgroundPosition: "center",
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
-              height: "90%",
+              height: "80%",
               width: "100%",
             }}
           ></figure>
