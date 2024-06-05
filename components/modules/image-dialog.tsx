@@ -2,6 +2,7 @@
 import { useState, type ComponentProps, type FC } from "react"
 import { Button, Input } from "components/elements"
 import ky from "ky"
+import { Image } from "@prisma/client"
 
 export const ImageDialog: FC<
   ComponentProps<"div"> & {
@@ -73,6 +74,22 @@ export const ImageDialog: FC<
             >
               削除
             </Button>
+            {image.id && (
+              <Button
+                type="button"
+                onClick={async () => {
+                  if (image.id) {
+                    const response = await ky.patch(`/api/image/${image.id}`, {
+                      json: { comment },
+                    })
+                    await response.json<{ image: Image }>()
+                    setIsOpenDialog(false)
+                  }
+                }}
+              >
+                更新
+              </Button>
+            )}
             <Button type="button" onClick={() => setIsOpenDialog(false)}>
               閉じる
             </Button>
