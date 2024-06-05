@@ -74,11 +74,15 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                 </div>
                 <div>
                   <dt>作成日時</dt>
-                  <dd>{house.createdAt.toLocaleString()}</dd>
+                  <dd>
+                    {new Date(house.createdAt.toString()).toLocaleString()}
+                  </dd>
                 </div>
                 <div>
                   <dt>更新日時</dt>
-                  <dd>{house.updatedAt.toLocaleString()}</dd>
+                  <dd>
+                    {new Date(house.updatedAt.toString()).toLocaleString()}
+                  </dd>
                 </div>
               </dl>
               <div>

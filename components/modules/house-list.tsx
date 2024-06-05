@@ -37,8 +37,8 @@ export const HouseList: FC<ComponentProps<"div"> & { list: House[] }> = ({
                     padding: ".25rem",
                   }}
                 >
-                  <p>{house.updatedAt.toLocaleString()}</p>
-                  <p>{house.createdAt.toLocaleString()}</p>
+                  <p>{new Date(house.createdAt.toString()).toLocaleString()}</p>
+                  <p>{new Date(house.updatedAt.toString()).toLocaleString()}</p>
                 </div>
               </td>
             </tr>
