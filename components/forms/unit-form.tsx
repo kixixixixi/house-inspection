@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Input } from "components/elements"
+import { Button, Input, MultiLineInput } from "components/elements"
 import { checkList } from "lib/constant/check-list"
 import { ComponentProps, FC, FormEvent, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
@@ -108,7 +108,7 @@ export const UnitForm: FC<
             padding: ".5rem",
           }}
         >
-          <Input
+          <MultiLineInput
             placeholder="メモ"
             value={comment}
             onChange={({ target: { value } }) => setComment(value)}

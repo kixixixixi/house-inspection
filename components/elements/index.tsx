@@ -54,6 +54,26 @@ export const Input: FC<ComponentProps<"input">> = ({ style, ...props }) => (
   />
 )
 
+export const MultiLineInput: FC<ComponentProps<"textarea">> = ({
+  style,
+  ...props
+}) => (
+  <textarea
+    style={{
+      border: "solid 1px #277",
+      borderRadius: "1rem",
+      color: "#333",
+      flexGrow: 1,
+      fontSize: "1rem",
+      fontWeight: "bold",
+      outline: "none",
+      padding: ".5rem 1rem",
+      ...style,
+    }}
+    {...props}
+  />
+)
+
 export const Field: FC<ComponentProps<"fieldset">> = ({ style, ...props }) => (
   <fieldset
     style={{
