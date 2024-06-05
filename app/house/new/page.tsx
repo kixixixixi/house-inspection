@@ -22,10 +22,51 @@ const HouseNewPage: NextPage = () => {
     roomCount: 1,
     stepCount: 1,
   })
+  const [addressText, setAddressText] = useState<string>("")
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await ky.post("/api/house", { json: { ...createInput } }).json()
     router.push("/")
+  }
+  const handleSearch = async () => {
+    const response = await ky.post(
+      "https://geonlp.ex.nii.ac.jp/api/geonlp/v2",
+      {
+        json: {
+          id: 1,
+          jsonrpc: "2.0",
+          method: "geonlp.addressGeocoding",
+          params: { address: addressText },
+        },
+      }
+    )
+    if (response.ok) {
+      const { result } = await response.json<{
+        id: 1
+        jsonrpc: "2.0"
+        result: {
+          candidates: {
+            fullname: string[]
+            id: number
+            level: number
+            name: string
+            note: string
+            priority: number
+            x: number
+            y: number
+          }[]
+          matched: string
+        }
+      }>()
+      if (result.candidates.length > 0) {
+        const candidate = result.candidates[0]
+        setCreateInput({
+          ...createInput,
+          latitude: candidate.y,
+          longitude: candidate.x,
+        })
+      }
+    }
   }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -66,6 +107,29 @@ const HouseNewPage: NextPage = () => {
             flexFlow: "column",
           }}
         >
+          <Field>
+            <label>住所から探す</label>
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                justifyContent: "space-between",
+              }}
+            >
+              <Input
+                value={addressText}
+                onChange={({ target: { value } }) => setAddressText(value)}
+                style={{ flexGrow: 2 }}
+              />
+              <Button
+                type="button"
+                disabled={addressText.length < 2}
+                onClick={handleSearch}
+              >
+                探す
+              </Button>
+            </div>
+          </Field>
           <Field>
             <label>緯度/経度</label>
             <div
