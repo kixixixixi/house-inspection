@@ -1,12 +1,18 @@
 "use client"
 
 import { NextPage } from "next"
-import { prisma } from "@/lib/db"
 import { HouseList } from "@/components/modules/house-list"
 import { House } from "@prisma/client"
 import { useEffect, useState } from "react"
 import ky from "ky"
-import MultiMarkerMap from "@/components/modules/multi-maker-map"
+import dynamic from "next/dynamic"
+
+const MultiMarkerMap = dynamic(
+  () => import("components/modules/multi-maker-map"),
+  {
+    ssr: false,
+  }
+)
 
 const HousePage: NextPage = () => {
   const [houseList, setHouseList] = useState<House[]>([])
