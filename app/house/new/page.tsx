@@ -8,6 +8,7 @@ import { Prisma } from "@prisma/client/"
 import ky from "ky"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
+import { searchAddress } from "@/lib/request"
 const Map = dynamic(() => import("components/modules/map"), {
   ssr: false,
 })
@@ -29,43 +30,13 @@ const HouseNewPage: NextPage = () => {
     router.push("/")
   }
   const handleSearch = async () => {
-    const response = await ky.post(
-      "https://geonlp.ex.nii.ac.jp/api/geonlp/v2",
-      {
-        json: {
-          id: 1,
-          jsonrpc: "2.0",
-          method: "geonlp.addressGeocoding",
-          params: { address: addressText },
-        },
-      }
-    )
-    if (response.ok) {
-      const { result } = await response.json<{
-        id: 1
-        jsonrpc: "2.0"
-        result: {
-          candidates: {
-            fullname: string[]
-            id: number
-            level: number
-            name: string
-            note: string
-            priority: number
-            x: number
-            y: number
-          }[]
-          matched: string
-        }
-      }>()
-      if (result.candidates.length > 0) {
-        const candidate = result.candidates[0]
-        setCreateInput({
-          ...createInput,
-          latitude: candidate.y,
-          longitude: candidate.x,
-        })
-      }
+    const candidate = await searchAddress({ address: addressText })
+    if (candidate) {
+      setCreateInput({
+        ...createInput,
+        latitude: candidate.y,
+        longitude: candidate.x,
+      })
     }
   }
   useEffect(() => {

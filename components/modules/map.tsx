@@ -6,19 +6,12 @@ import {
   TileLayer,
   Marker,
   Popup,
-  useMap,
   useMapEvent,
 } from "react-leaflet"
 import { LatLng, icon } from "leaflet"
 import "leaflet/dist/leaflet.css"
 import iconImage from "leaflet/dist/images/marker-icon.png"
-
-const ChangeMapCenter = ({ position }: { position: LatLng }) => {
-  const map = useMap()
-  map.panTo(position)
-
-  return null
-}
+import { ChangeMapCenter } from "@/lib/map"
 
 const ChangeMarkerEvent = ({
   setPosition,

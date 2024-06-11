@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css"
 import iconImage from "leaflet/dist/images/marker-icon.png"
 import { House } from "@prisma/client"
 import Link from "next/link"
+import { ChangeMapCenter } from "@/lib/map"
 
 const MultiMarkerMap: FC<
   ComponentProps<"div"> & {
@@ -50,6 +51,7 @@ const MultiMarkerMap: FC<
               </Popup>
             </Marker>
           ))}
+          <ChangeMapCenter position={position} />
         </MapContainer>
       )}
     </div>
