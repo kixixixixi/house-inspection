@@ -46,6 +46,7 @@ const MultiMarkerMap: FC<
             >
               <Popup>
                 <Link href={`/house/${marker.id}`}>{marker.name}</Link>
+                <p>{marker.floorCount}階建て</p>
               </Popup>
             </Marker>
           ))}
