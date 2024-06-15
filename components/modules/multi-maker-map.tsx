@@ -8,6 +8,7 @@ import iconImage from "leaflet/dist/images/marker-icon.png"
 import { House } from "@prisma/client"
 import Link from "next/link"
 import { ChangeMapCenter } from "@/lib/map"
+import { useSearchParams } from "next/navigation"
 
 const MultiMarkerMap: FC<
   ComponentProps<"div"> & {
@@ -23,6 +24,21 @@ const MultiMarkerMap: FC<
       setPosition(newPosition)
     }
   }, [latitude, longitude])
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    const latitude = searchParams.get("latitude")
+    const longitude = searchParams.get("longitude")
+
+    if (latitude && longitude) {
+      setPosition(new LatLng(Number(latitude), Number(longitude)))
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setPosition(
+          new LatLng(position.coords.latitude, position.coords.longitude)
+        )
+      })
+    }
+  }, [searchParams])
   return (
     <div style={{ height: "100vw", maxHeight: "80vh", ...style }} {...props}>
       {position && (

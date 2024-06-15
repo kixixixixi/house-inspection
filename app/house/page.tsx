@@ -8,7 +8,6 @@ import ky from "ky"
 import dynamic from "next/dynamic"
 import { Button, Input } from "@/components/elements"
 import { searchAddress } from "@/lib/request"
-import { useSearchParams } from "next/navigation"
 
 const MultiMarkerMap = dynamic(
   () => import("components/modules/multi-maker-map"),
@@ -27,7 +26,6 @@ const HousePage: NextPage = () => {
     longitude: 139.76,
   })
   const [address, setAddress] = useState<string>("")
-  const searchParams = useSearchParams()
   useEffect(() => {
     const fetch = async () => {
       const response = await ky.get(`/api/house`)
@@ -36,24 +34,6 @@ const HousePage: NextPage = () => {
     }
     fetch()
   }, [])
-  useEffect(() => {
-    const latitude = searchParams.get("latitude")
-    const longitude = searchParams.get("longitude")
-
-    if (latitude && longitude) {
-      setInitialPosition({
-        latitude: Number(latitude),
-        longitude: Number(longitude),
-      })
-    } else {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setInitialPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        })
-      })
-    }
-  }, [searchParams])
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
