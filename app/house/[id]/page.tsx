@@ -7,6 +7,7 @@ import { OuteriorUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
 import { House, Unit } from "@prisma/client"
 import ky from "ky"
+import { LinkButton } from "@/components/elements/link"
 
 const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
@@ -86,6 +87,13 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                   </dd>
                 </div>
               </dl>
+              <div>
+                <LinkButton
+                  href={`/house?latitude=${house.latitude}&longitude=${house.longitude}`}
+                >
+                  地図を見る
+                </LinkButton>
+              </div>
               <div>
                 <HouseDelete houseId={house.id} />
               </div>
