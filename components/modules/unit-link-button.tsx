@@ -10,7 +10,7 @@ export const UnitLinkButton: FC<
     house: House & { units?: Unit[] }
     name?: string
   }
-> = ({ house, unitType, index, floor, name, ...props }) => {
+> = ({ house, unitType, index, floor, name, style, ...props }) => {
   const unit = house?.units?.find(
     (u) => u.type == unitType && u.index == index && u.floor == (floor ?? 1)
   )
@@ -22,6 +22,11 @@ export const UnitLinkButton: FC<
           : `/house/${house.id}/unit/new?type=${unitType}&floor=${floor}&index=${index}`
       }
       selected={!!unit}
+      style={{
+        textWrap: "nowrap",
+        width: "auto",
+        ...style,
+      }}
       {...props}
     >
       {unit?.name ?? name ?? `${unitType == "room" ? "部屋" : "階段"} ${index}`}

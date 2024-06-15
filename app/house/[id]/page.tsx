@@ -12,8 +12,9 @@ const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
     style={{
       display: "flex",
-      flexWrap: "wrap",
       gap: ".25rem",
+      overflowX: "scroll",
+      overflowY: "hidden",
       padding: ".5rem 0",
       ...style,
     }}
@@ -102,14 +103,13 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
               </p>
               <RowSection>
                 {OuteriorUnits.map((unit) => (
-                  <div key={unit.index}>
-                    <UnitLinkButton
-                      unitType="outerior"
-                      {...unit}
-                      floor={1}
-                      house={house}
-                    ></UnitLinkButton>
-                  </div>
+                  <UnitLinkButton
+                    key={unit.index}
+                    unitType="outerior"
+                    {...unit}
+                    floor={1}
+                    house={house}
+                  ></UnitLinkButton>
                 ))}
               </RowSection>
               <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
@@ -124,26 +124,24 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                       {[...Array(house.roomCount).keys()]
                         .map((j) => j + 1)
                         .map((j) => (
-                          <div key={j}>
-                            <UnitLinkButton
-                              unitType="room"
-                              index={j}
-                              floor={i}
-                              house={house}
-                            ></UnitLinkButton>
-                          </div>
+                          <UnitLinkButton
+                            key={j}
+                            unitType="room"
+                            index={j}
+                            floor={i}
+                            house={house}
+                          ></UnitLinkButton>
                         ))}
                       {[...Array(house.stepCount).keys()]
                         .map((j) => j + 1)
                         .map((j) => (
-                          <div key={j}>
-                            <UnitLinkButton
-                              unitType="step"
-                              index={j}
-                              floor={i}
-                              house={house}
-                            ></UnitLinkButton>
-                          </div>
+                          <UnitLinkButton
+                            key={j}
+                            unitType="step"
+                            index={j}
+                            floor={i}
+                            house={house}
+                          ></UnitLinkButton>
                         ))}
                     </RowSection>
                   </>
