@@ -9,7 +9,7 @@ export const PATCH = async (
   const body: Prisma.UnitUpdateInput = await request.json()
   const unit = await prisma.unit.update({
     where: { id: parseInt(id) },
-    data: body,
+    data: { ...body, house: { update: { updatedAt: new Date() } } },
   })
   return NextResponse.json({ unit })
 }
@@ -18,6 +18,10 @@ export const DELETE = async (
   request: NextRequest,
   { params: { id } }: { params: { id: string } }
 ): Promise<NextResponse<{ message: string }>> => {
-  await prisma.unit.delete({ where: { id: parseInt(id) } })
+  const unit = await prisma.unit.delete({ where: { id: parseInt(id) } })
+  await prisma.house.update({
+    where: { id: unit.houseId },
+    data: { updatedAt: new Date() },
+  })
   return NextResponse.json({ message: "削除しました" })
 }

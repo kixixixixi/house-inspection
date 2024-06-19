@@ -7,7 +7,13 @@ export const POST = async (
 ): Promise<NextResponse<{ unit: Unit }>> => {
   const body: Prisma.UnitCreateInput = await request.json()
   const unit = await prisma.unit.create({
-    data: body,
+    data: { ...body },
   })
+  if (body.house.connect?.id) {
+    await prisma.house.update({
+      where: { id: body.house.connect.id },
+      data: { updatedAt: new Date() },
+    })
+  }
   return NextResponse.json({ unit })
 }
