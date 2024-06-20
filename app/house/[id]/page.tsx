@@ -49,6 +49,35 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
             <hgroup style={{ padding: "1rem 0" }}>
               <h1>{house.name}</h1>
             </hgroup>
+
+            <dl
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1rem",
+              }}
+            >
+              <div>
+                <dt>緯度</dt>
+                <dd>{house.latitude}</dd>
+              </div>
+              <div>
+                <dt>経度</dt>
+                <dd>{house.longitude}</dd>
+              </div>
+              <div>
+                <dt>作成日時</dt>
+                <dd>{new Date(house.createdAt.toString()).toLocaleString()}</dd>
+              </div>
+              <div>
+                <dt>更新日時</dt>
+                <dd>{new Date(house.updatedAt.toString()).toLocaleString()}</dd>
+              </div>
+              <div>
+                <dt>UID</dt>
+                <dd>{house.uid}</dd>
+              </div>
+            </dl>
             <div
               style={{
                 alignItems: "flex-end",
@@ -57,36 +86,9 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                 flexWrap: "wrap",
                 gap: "1rem",
                 justifyContent: "space-between",
+                padding: "1rem 0",
               }}
             >
-              <dl
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "1rem",
-                }}
-              >
-                <div>
-                  <dt>緯度</dt>
-                  <dd>{house.latitude}</dd>
-                </div>
-                <div>
-                  <dt>経度</dt>
-                  <dd>{house.longitude}</dd>
-                </div>
-                <div>
-                  <dt>作成日時</dt>
-                  <dd>
-                    {new Date(house.createdAt.toString()).toLocaleString()}
-                  </dd>
-                </div>
-                <div>
-                  <dt>更新日時</dt>
-                  <dd>
-                    {new Date(house.updatedAt.toString()).toLocaleString()}
-                  </dd>
-                </div>
-              </dl>
               <div>
                 <LinkButton
                   href={`/house?latitude=${house.latitude}&longitude=${house.longitude}`}
@@ -103,7 +105,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                 display: "flex",
                 flexFlow: "column",
                 gap: ".25rem",
-                padding: "2rem 0",
+                padding: "1rem 0",
               }}
             >
               <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
