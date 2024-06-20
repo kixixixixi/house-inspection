@@ -18,6 +18,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
   const house = await prisma.house.create({
     data: {
       ...body,
+      altitude,
       uid: `${Math.floor(body.latitude)}${
         body.latitude.toPrecision(8).split(".")[1]
       }${Math.floor(body.longitude)}${

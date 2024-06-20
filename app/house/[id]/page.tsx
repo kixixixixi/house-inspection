@@ -66,6 +66,10 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                 <dd>{house.longitude}</dd>
               </div>
               <div>
+                <dt>標高</dt>
+                <dd>{house.altitude}m</dd>
+              </div>
+              <div>
                 <dt>作成日時</dt>
                 <dd>{new Date(house.createdAt.toString()).toLocaleString()}</dd>
               </div>
