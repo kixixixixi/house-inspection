@@ -3,7 +3,7 @@
 import { NextPage } from "next"
 import { useEffect, useState, type ComponentProps, type FC } from "react"
 import { HouseDelete } from "@/components/services/house-delete"
-import { OuteriorUnits } from "@/lib/constant/unit"
+import { OuteriorUnits, ResidenceUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
 import { House, Unit } from "@prisma/client"
 import ky from "ky"
@@ -109,13 +109,27 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
               }}
             >
               <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
-                外形・外構
+                外構
               </p>
               <RowSection>
                 {OuteriorUnits.map((unit) => (
                   <UnitLinkButton
                     key={unit.index}
                     unitType="outerior"
+                    {...unit}
+                    floor={1}
+                    house={house}
+                  ></UnitLinkButton>
+                ))}
+              </RowSection>
+              <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
+                住棟
+              </p>
+              <RowSection>
+                {ResidenceUnits.map((unit) => (
+                  <UnitLinkButton
+                    key={unit.index}
+                    unitType="residence"
                     {...unit}
                     floor={1}
                     house={house}
