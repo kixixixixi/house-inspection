@@ -8,7 +8,7 @@ export const GET = async (
 ): Promise<NextResponse<{ house: House }>> => {
   const house = await prisma.house.findUniqueOrThrow({
     where: { id: parseInt(id) },
-    include: { units: true },
+    include: { units: true, versions: true },
   })
   return NextResponse.json({ house })
 }

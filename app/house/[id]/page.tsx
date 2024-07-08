@@ -5,7 +5,7 @@ import { useEffect, useState, type ComponentProps, type FC } from "react"
 import { HouseDelete } from "@/components/services/house-delete"
 import { OuteriorUnits, ResidenceUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
-import { House, Unit } from "@prisma/client"
+import { House, Unit, Version } from "@prisma/client"
 import ky from "ky"
 import { LinkButton } from "@/components/elements/link"
 
@@ -26,7 +26,9 @@ const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
 const HouseIdPage: NextPage<{ params: { id: string } }> = ({
   params: { id },
 }) => {
-  const [house, setHouse] = useState<House & { units?: Unit[] }>()
+  const [house, setHouse] = useState<
+    House & { units?: Unit[]; versions?: Version[] }
+  >()
   useEffect(() => {
     const fetch = async () => {
       const response = await ky.get(`/api/house/${id}`)
@@ -175,6 +177,18 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                   </>
                 ))}
             </div>
+            {house.versions && (
+              <div>
+                <p>変更履歴</p>
+                {house.versions.map((version) => (
+                  <div key={version.id}>
+                    {new Date(version.createdAt).toLocaleDateString()}&nbsp;
+                    {new Date(version.createdAt).toLocaleTimeString()}: &nbsp;
+                    {version.reason}
+                  </div>
+                ))}
+              </div>
+            )}
           </>
         )}
       </section>
