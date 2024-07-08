@@ -144,6 +144,13 @@ export const UnitForm: FC<
                 onDelete={async () => {
                   setImages(images.filter((i) => i.base64 !== image.base64))
                 }}
+                onChange={(props) => {
+                  setImages(
+                    images.map((i) =>
+                      i.base64 == image.base64 ? { ...i, ...props } : i
+                    )
+                  )
+                }}
               />
             </div>
           ))}

@@ -15,8 +15,13 @@ export const ImageDialog: FC<
       longitude: number
     }
     onDelete: () => Promise<void>
+    onChange: (props: {
+      comment?: string | null
+      latitude: number
+      longitude: number
+    }) => void
   }
-> = ({ image, onDelete, ...props }) => {
+> = ({ image, onDelete, onChange, ...props }) => {
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
   const [comment, setComment] = useState<string>(image.comment ?? "")
   const [position, setPosition] = useState<{
@@ -94,7 +99,7 @@ export const ImageDialog: FC<
               >
                 削除
               </Button>
-              {image.id && (
+              {image.id ? (
                 <Button
                   type="button"
                   onClick={async () => {
@@ -111,6 +116,16 @@ export const ImageDialog: FC<
                   }}
                 >
                   更新
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={async () => {
+                    onChange({ ...position, comment })
+                    setIsOpenDialog(false)
+                  }}
+                >
+                  保存
                 </Button>
               )}
               <Button type="button" onClick={() => setIsOpenDialog(false)}>
