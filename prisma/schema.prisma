@@ -12,18 +12,19 @@ datasource db {
 }
 
 model House {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
   name       String
   latitude   Float
   longitude  Float
   altitude   Float?
-  floorCount Int      @default(1)
-  roomCount  Int      @default(1)
-  stepCount  Int      @default(1)
+  floorCount Int       @default(1)
+  roomCount  Int       @default(1)
+  stepCount  Int       @default(1)
   structure  Json?
-  uid        String?  @unique
+  uid        String?   @unique
+  versions   Version[]
 
   units Unit[]
 }
@@ -38,6 +39,7 @@ model Unit {
   floor     Int      @default(1)
   index     Int
   comment   String?
+  versionId Int
 
   house  House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
   checks Check[]
@@ -68,17 +70,20 @@ model Image {
   unit      Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
   base64    String
   comment   String?
-  markers   Marker[]
-}
-
-model Marker {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  imageId   Int
-  image     Image    @relation(fields: [imageId], references: [id], onDelete: Cascade)
   latitude  Float
   longitude Float
   altitude  Float?
-  comment   String?
+}
+
+
+model Version {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  houseId Int
+  house   House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  code    String
+  text    String?
+  reason  String?
 }

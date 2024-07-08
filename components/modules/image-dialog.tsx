@@ -3,16 +3,26 @@ import { useState, type ComponentProps, type FC } from "react"
 import { Button, Input } from "components/elements"
 import ky from "ky"
 import { Image } from "@prisma/client"
+import Map from "./map"
 
 export const ImageDialog: FC<
   ComponentProps<"div"> & {
-    image: { id?: number; base64: string; comment?: string | null }
+    image: {
+      id?: number
+      base64: string
+      comment?: string | null
+      latitude: number
+      longitude: number
+    }
     onDelete: () => Promise<void>
   }
 > = ({ image, onDelete, ...props }) => {
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
   const [comment, setComment] = useState<string>(image.comment ?? "")
-
+  const [position, setPosition] = useState<{
+    latitude: number
+    longitude: number
+  }>({ ...image })
   return (
     <>
       <div {...props}>
@@ -36,6 +46,7 @@ export const ImageDialog: FC<
             inlineSize: "min(42rem, 90vw)",
             inset: 0,
             margin: "auto",
+            overflow: "scroll",
             padding: "1rem",
             placeContent: "center",
           }}
@@ -50,6 +61,14 @@ export const ImageDialog: FC<
               width: "100%",
             }}
           ></figure>
+          <Map
+            latitude={image.latitude}
+            longitude={image.longitude}
+            name={comment}
+            onChangePosition={(position) => {
+              setPosition({ latitude: position.lat, longitude: position.lng })
+            }}
+          />
           <div style={{ padding: ".5rem" }}>
             <Input
               placeholder="コメント"
@@ -80,7 +99,7 @@ export const ImageDialog: FC<
                 onClick={async () => {
                   if (image.id) {
                     const response = await ky.patch(`/api/image/${image.id}`, {
-                      json: { comment },
+                      json: { comment, ...position },
                     })
                     await response.json<{ image: Image }>()
                     setIsOpenDialog(false)

@@ -39,7 +39,13 @@ export const UnitForm: FC<
   >(unit?.checks ?? [])
   const [comment, setComment] = useState<string>(unit?.comment ?? "")
   const [images, setImages] = useState<
-    { id?: number; base64: string; comment?: string | null }[]
+    {
+      id?: number
+      base64: string
+      comment?: string | null
+      latitude: number
+      longitude: number
+    }[]
   >(unit?.images ?? [])
   const handleSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -71,7 +77,7 @@ export const UnitForm: FC<
         json: body,
       })
     } else {
-      const body: Prisma.UnitCreateInput = {
+      const body: Omit<Prisma.UnitCreateInput, "versionId"> = {
         name,
         type,
         floor,
@@ -86,7 +92,7 @@ export const UnitForm: FC<
         },
       }
       const response = await ky.post(`/api/unit`, {
-        json: body,
+        json: { ...body, version: { reason: "新規作成" } },
       })
     }
     router.push(`/house/${house.id}`)
@@ -96,7 +102,15 @@ export const UnitForm: FC<
     const file = e.target.files[0]
     const base64 = await resizeImage(file, { type: true })
     if (!base64) return
-    setImages([...images, { base64, comment: "" }])
+    setImages([
+      ...images,
+      {
+        base64,
+        comment: "",
+        latitude: house.latitude,
+        longitude: house.longitude,
+      },
+    ])
   }
   return (
     <>
