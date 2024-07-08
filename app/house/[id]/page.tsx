@@ -184,7 +184,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                   <div key={version.id}>
                     {new Date(version.createdAt).toLocaleDateString()}&nbsp;
                     {new Date(version.createdAt).toLocaleTimeString()}: &nbsp;
-                    {version.reason}
+                    {version.text}:{version.reason}({version.code})
                   </div>
                 ))}
               </div>

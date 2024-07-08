@@ -92,7 +92,7 @@ export const UnitForm: FC<
         },
       }
       const response = await ky.post(`/api/unit`, {
-        json: { ...body, version: { reason: "新規作成" } },
+        json: { ...body, version: { reason: "新規追加" } },
       })
     }
     router.push(`/house/${house.id}`)
