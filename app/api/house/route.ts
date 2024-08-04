@@ -30,6 +30,13 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
         .slice(0, 2)}`,
     },
   })
+  const version = await prisma.version.create({
+    data: {
+      code: `${Date.now()}`,
+      reason: "作成",
+      house: { connect: { id: house.id } },
+    },
+  })
   return NextResponse.json({
     house,
   })
