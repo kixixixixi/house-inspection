@@ -8,6 +8,7 @@ import { UnitLinkButton } from "@/components/modules/unit-link-button"
 import { House, Unit, Version } from "@prisma/client"
 import ky from "ky"
 import { LinkButton } from "@/components/elements/link"
+import Link from "next/link"
 
 const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
@@ -181,11 +182,15 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
               <div>
                 <p>変更履歴</p>
                 {house.versions.map((version) => (
-                  <div key={version.id}>
+                  <Link
+                    key={version.id}
+                    href={`/house/${house.id}/version/${version.id}`}
+                    style={{ display: "block" }}
+                  >
                     {new Date(version.createdAt).toLocaleDateString()}&nbsp;
                     {new Date(version.createdAt).toLocaleTimeString()}: &nbsp;
                     {version.text}:{version.reason}({version.code})
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
