@@ -4,7 +4,7 @@ import type { FormEvent } from "react"
 import { useEffect, useState } from "react"
 import { Button, Field, Input } from "components/elements"
 import type { NextPage } from "next"
-import { Prisma } from "@prisma/client/"
+import { House, Prisma } from "@prisma/client/"
 import ky from "ky"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
@@ -26,8 +26,11 @@ const HouseNewPage: NextPage = () => {
   const [addressText, setAddressText] = useState<string>("")
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await ky.post("/api/house", { json: { ...createInput } }).json()
-    router.push("/")
+    const { house } = await ky
+      .post("/api/house", { json: { ...createInput } })
+      .json<{ house: House }>()
+    console.log(house)
+    router.push(`/house/${house.id}`)
   }
   const handleSearch = async () => {
     const candidate = await searchAddress({ address: addressText })
