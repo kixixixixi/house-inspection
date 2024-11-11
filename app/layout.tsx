@@ -3,7 +3,7 @@ import { M_PLUS_1 } from "next/font/google"
 import "./globals.css"
 import Link from "next/link"
 import { Container } from "@/components/elements"
-import { RefreshTextButton } from "@/components/elements/link"
+import { SignInMenu } from "@/components/modules/sign-in-menu"
 
 const font = M_PLUS_1({ subsets: ["latin"] })
 
@@ -33,7 +33,7 @@ export default function RootLayout({
           }}
         >
           <Link href={"/"}>公共住宅点検アプリ</Link>
-          <RefreshTextButton>更新</RefreshTextButton>
+          <SignInMenu />
         </header>
         <main
           style={{
