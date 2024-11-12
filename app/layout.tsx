@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import { M_PLUS_1 } from "next/font/google"
 import "./globals.css"
 import Link from "next/link"
-import { Container } from "@/components/elements"
 import { SignInMenu } from "@/components/modules/sign-in-menu"
+import { Main } from "@/components/main"
 
 const font = M_PLUS_1({ subsets: ["latin"] })
 
@@ -35,15 +35,7 @@ export default function RootLayout({
           <Link href={"/"}>公共住宅点検アプリ</Link>
           <SignInMenu />
         </header>
-        <main
-          style={{
-            height: "100%",
-            minHeight: "100dvh",
-            paddingTop: "3rem",
-          }}
-        >
-          <Container>{children}</Container>
-        </main>
+        <Main>{children}</Main>
       </body>
     </html>
   )
