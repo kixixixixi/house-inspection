@@ -39,13 +39,26 @@ export const SignInMenu: FC<ComponentProps<"div"> & {}> = ({
   return (
     <div
       style={{
+        alignItems: "center",
         display: "flex",
+        gap: ".5rem",
+        justifyContent: "right",
         ...style,
       }}
       {...props}
     >
       {account ? (
-        <>{account.email}</>
+        <>
+          <div>{account.email}</div>
+          <Button
+            onClick={async () => {
+              await supabase.auth.signOut()
+              setAccount(undefined)
+            }}
+          >
+            ログアウト
+          </Button>
+        </>
       ) : (
         <>
           <Button onClick={() => setIsOpenSignInModal(true)}>ログイン</Button>

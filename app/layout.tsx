@@ -22,9 +22,11 @@ export default function RootLayout({
       <body style={{ ...font.style }}>
         <header
           style={{
+            alignItems: "center",
             background: "#277",
             color: "#eee",
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "space-between",
             padding: ".75rem",
             position: "fixed",
