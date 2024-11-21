@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Input, MultiLineInput } from "components/elements"
-import { checkList } from "lib/constant/check-list"
+import { defaultCheckList } from "lib/constant/check-list"
 import { ComponentProps, FC, FormEvent, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
 import { Check, House, Prisma, Unit, Image } from "@prisma/client"
@@ -183,7 +183,7 @@ export const UnitForm: FC<
               </tr>
             </thead>
             <tbody>
-              {checkList.map((check) => (
+              {defaultCheckList.map((check) => (
                 <tr
                   key={check.id}
                   style={{

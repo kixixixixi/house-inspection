@@ -1,4 +1,4 @@
-export const checkList: {
+export const defaultCheckList: {
   id: number
   largeCategory: string
   mediumCategory: string
