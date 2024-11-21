@@ -6,6 +6,8 @@ import { HouseList } from "@/components/modules/house-list"
 import { useEffect, useState } from "react"
 import { House } from "@prisma/client"
 import ky from "ky"
+import { Button } from "@/components/elements"
+import { defaultCheckList } from "@/lib/constant/check-list"
 
 const Home: NextPage = () => {
   const [houseList, setHouseList] = useState<House[]>([])
@@ -17,6 +19,27 @@ const Home: NextPage = () => {
     }
     fetch()
   }, [])
+
+  const downloadCheckList = () => {
+    const csv = [
+      ["大項目,中項目,小項目,各部位,部所"].join(","),
+      ...defaultCheckList.map((row) =>
+        [
+          row.largeCategory,
+          row.mediumCategory,
+          row.smallCategory,
+          row.part,
+          row.detail,
+        ].join(",")
+      ),
+    ].join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.setAttribute("href", url)
+    link.setAttribute("download", "チェックリスト.csv")
+    link.click()
+  }
 
   return (
     <>
@@ -46,8 +69,17 @@ const Home: NextPage = () => {
           <LinkButton href="/house/new">新規作成</LinkButton>
           <LinkButton href="/house">閲覧・編集</LinkButton>
         </div>
+
         <div>
           <HouseList list={houseList} />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+          }}
+        >
+          <Button onClick={downloadCheckList}>チェックリスト出力</Button>
         </div>
       </section>
     </>
