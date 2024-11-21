@@ -43,6 +43,10 @@ export const SignInMenu: FC<ComponentProps<"div"> & {}> = ({
               await supabase.auth.signOut()
               setAccount(undefined)
             }}
+            style={{
+              fontSize: ".8rem",
+              padding: "0 1rem",
+            }}
           >
             ログアウト
           </Button>
