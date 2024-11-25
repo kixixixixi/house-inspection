@@ -9,7 +9,7 @@ const HouseIdUnitPage: NextPage<{
 }> = async ({ params: { id, unitId } }) => {
   const unit = await prisma.unit.findUniqueOrThrow({
     where: { id: parseInt(unitId) },
-    include: { house: true, checks: true, images: true },
+    include: { house: true, images: true },
   })
   return (
     <>

@@ -12,10 +12,12 @@
     "@prisma/client": "^5.13.0",
     "@supabase/supabase-js": "^2.46.1",
     "jotai": "^2.10.1",
+    "js-md5": "^0.8.3",
     "ky": "^1.2.4",
     "leaflet": "^1.9.4",
     "next": "14.2.3",
-    "prisma": "^5.13.0",
+    "prisma": "^5.20",
+    "prisma-json-types-generator": "^3.1.1",
     "react": "^18",
     "react-dom": "^18",
     "react-leaflet": "^4.2.1"
@@ -27,6 +29,6 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
-    "typescript": "^5"
+    "typescript": "^5.6"
   }
 }

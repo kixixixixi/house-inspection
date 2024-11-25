@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -12,19 +16,20 @@ datasource db {
 }
 
 model House {
-  id         Int       @id @default(autoincrement())
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime  @updatedAt @map("updated_at")
-  name       String
-  latitude   Float
-  longitude  Float
-  altitude   Float?
-  floorCount Int       @default(1)
-  roomCount  Int       @default(1)
-  stepCount  Int       @default(1)
-  structure  Json?
-  uid        String?   @unique
-  versions   Version[]
+  id                Int       @id @default(autoincrement())
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  name              String
+  latitude          Float
+  longitude         Float
+  altitude          Float?
+  floorCount        Int       @default(1)
+  roomCount         Int       @default(1)
+  stepCount         Int       @default(1)
+  structure         Json?
+  uid               String?   @unique
+  CheckListTemplate Json?
+  versions          Version[]
 
   units Unit[]
 }
@@ -41,25 +46,13 @@ model Unit {
   comment   String?
   versionId Int
 
+  /// [CheckList]
+  CheckList Json?
+
   house  House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
-  checks Check[]
   images Image[]
 
   @@unique([houseId, type, floor, index], name: "unit_unique_key")
-}
-
-model Check {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  unitId    Int
-  rank      String?
-  checkId   Int
-  isHidden  Boolean  @default(false)
-
-  unit Unit @relation(fields: [unitId], references: [id], onDelete: Cascade)
-
-  @@unique([checkId, unitId], name: "unit_check_unique_key")
 }
 
 model Image {
@@ -74,7 +67,6 @@ model Image {
   longitude Float
   altitude  Float?
 }
-
 
 model Version {
   id        Int      @id @default(autoincrement())
