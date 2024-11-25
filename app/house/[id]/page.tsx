@@ -9,6 +9,7 @@ import { House, Unit, Version } from "@prisma/client"
 import ky from "ky"
 import { LinkButton } from "@/components/elements/link"
 import Link from "next/link"
+import { Button } from "@/components/elements"
 
 const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
@@ -107,6 +108,9 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
                 <HouseDelete houseId={house.id} />
               </div>
             </div>
+            <div>
+              <Button>チェックリスト取込</Button>
+            </div>
             <div
               style={{
                 display: "flex",
@@ -196,6 +200,9 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
             )}
           </>
         )}
+        <div>
+          <Button>チェックリスト取込</Button>
+        </div>
       </section>
     </>
   )
