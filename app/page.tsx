@@ -80,6 +80,7 @@ const Home: NextPage = () => {
           }}
         >
           <Button onClick={downloadCheckList}>チェックリスト出力</Button>
+          <Button>チェックリスト取込</Button>
         </div>
       </section>
     </>
