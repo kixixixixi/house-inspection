@@ -16,20 +16,23 @@ datasource db {
 }
 
 model House {
-  id                Int       @id @default(autoincrement())
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
-  name              String
-  latitude          Float
-  longitude         Float
-  altitude          Float?
-  floorCount        Int       @default(1)
-  roomCount         Int       @default(1)
-  stepCount         Int       @default(1)
-  structure         Json?
-  uid               String?   @unique
-  CheckListTemplate Json?
-  versions          Version[]
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  name       String
+  latitude   Float
+  longitude  Float
+  altitude   Float?
+  floorCount Int      @default(1)
+  roomCount  Int      @default(1)
+  stepCount  Int      @default(1)
+  structure  Json?
+  uid        String?  @unique
+
+  /// [CheckTemplateList]
+  checkListTemplate Json?
+
+  versions Version[]
 
   units Unit[]
 }
@@ -47,7 +50,7 @@ model Unit {
   versionId Int
 
   /// [CheckList]
-  CheckList Json?
+  checkList Json?
 
   house  House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
   images Image[]

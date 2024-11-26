@@ -2,9 +2,9 @@
 
 import { Button, Input, MultiLineInput } from "components/elements"
 import { defaultCheckList } from "lib/constant/check-list"
-import { ComponentProps, FC, FormEvent, useState } from "react"
+import { ComponentProps, FC, FormEvent, useEffect, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
-import { Check, House, Prisma, Unit, Image } from "@prisma/client"
+import { House, Prisma, Unit, Image } from "@prisma/client"
 import ky from "ky"
 import { useRouter } from "next/navigation"
 import { InputFileButton } from "../elements/form"
@@ -30,13 +30,13 @@ export const UnitForm: FC<
     floor: number
     index: number
     name: string
-    unit?: Unit & { checks?: Check[]; images?: Image[] }
+    unit?: Unit & { images?: Image[] }
   }
 > = ({ house, type, floor, index, name, unit }) => {
   const router = useRouter()
   const [createCheckInputList, setCreateCheckInputList] = useState<
-    (Omit<Prisma.CheckCreateInput, "unit"> & { id?: number })[]
-  >(unit?.checks ?? [])
+    PrismaJson.Check[]
+  >([])
   const [comment, setComment] = useState<string>(unit?.comment ?? "")
   const [images, setImages] = useState<
     {
@@ -53,16 +53,7 @@ export const UnitForm: FC<
       const body: Prisma.UnitUpdateInput = {
         name,
         comment,
-        checks: {
-          upsert: createCheckInputList.map((c) => ({
-            where: {
-              id: c.id,
-              unit_check_unique_key: { checkId: c.checkId, unitId: unit.id },
-            },
-            create: { checkId: c.checkId, rank: c.rank },
-            update: { rank: c.rank },
-          })),
-        },
+        checkList: createCheckInputList,
         images: {
           create: images.filter((image) => !image.id),
           update: images
@@ -84,9 +75,7 @@ export const UnitForm: FC<
         index,
         house: { connect: { id: house.id } },
         comment,
-        checks: {
-          create: createCheckInputList,
-        },
+        checkList: createCheckInputList,
         images: {
           create: images,
         },
@@ -112,6 +101,12 @@ export const UnitForm: FC<
       },
     ])
   }
+
+  useEffect(() => {
+    setCreateCheckInputList(
+      unit?.checkList ?? house.checkListTemplate ?? defaultCheckList ?? []
+    )
+  }, [unit])
   return (
     <>
       <form onSubmit={handleSave}>
@@ -183,7 +178,7 @@ export const UnitForm: FC<
               </tr>
             </thead>
             <tbody>
-              {defaultCheckList.map((check) => (
+              {(createCheckInputList ?? []).map((check) => (
                 <tr
                   key={check.id}
                   style={{
@@ -197,22 +192,12 @@ export const UnitForm: FC<
                   <CheckListTD>{check.detail}</CheckListTD>
                   <CheckListTD>
                     <select
-                      value={
-                        createCheckInputList.find((c) => c.checkId == check.id)
-                          ?.rank ?? undefined
-                      }
+                      value={check.rank}
                       onChange={({ target: { value } }) => {
                         setCreateCheckInputList([
-                          ...createCheckInputList.filter(
-                            (c) => c.checkId != check.id
+                          ...createCheckInputList.map((c) =>
+                            c.id == check.id ? { ...c, rank: value } : c
                           ),
-                          {
-                            id: createCheckInputList.find(
-                              (c) => c.checkId == check.id
-                            )?.id,
-                            checkId: check.id,
-                            rank: value,
-                          },
                         ])
                       }}
                     >
