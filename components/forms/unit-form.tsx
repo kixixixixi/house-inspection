@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Input, MultiLineInput } from "components/elements"
+import { Button, MultiLineInput, SmallInput } from "components/elements"
 import { defaultCheckList } from "lib/constant/check-list"
 import { ComponentProps, FC, FormEvent, useEffect, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { InputFileButton } from "../elements/form"
 import { resizeImage } from "@/lib/file"
 import { ImageDialog } from "../modules/image-dialog"
+import { generateIdFromCheck } from "@/lib/text"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
   <td
@@ -34,9 +35,7 @@ export const UnitForm: FC<
   }
 > = ({ house, type, floor, index, name, unit }) => {
   const router = useRouter()
-  const [createCheckInputList, setCreateCheckInputList] = useState<
-    PrismaJson.Check[]
-  >([])
+  const [checkInputList, setCheckInputList] = useState<PrismaJson.Check[]>([])
   const [comment, setComment] = useState<string>(unit?.comment ?? "")
   const [images, setImages] = useState<
     {
@@ -49,11 +48,21 @@ export const UnitForm: FC<
   >(unit?.images ?? [])
   const handleSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const newCheckList = checkInputList.map((c) => ({
+      ...c,
+      id: generateIdFromCheck(c),
+    }))
+    if (
+      [...new Set(newCheckList.map((c) => c.id))].length != newCheckList.length
+    ) {
+      alert("重複した項目があります")
+      return
+    }
     if (unit) {
       const body: Prisma.UnitUpdateInput = {
         name,
         comment,
-        checkList: createCheckInputList,
+        checkList: newCheckList,
         images: {
           create: images.filter((image) => !image.id),
           update: images
@@ -75,7 +84,7 @@ export const UnitForm: FC<
         index,
         house: { connect: { id: house.id } },
         comment,
-        checkList: createCheckInputList,
+        checkList: newCheckList,
         images: {
           create: images,
         },
@@ -103,7 +112,7 @@ export const UnitForm: FC<
   }
 
   useEffect(() => {
-    setCreateCheckInputList(
+    setCheckInputList(
       unit?.checkList ?? house.checkListTemplate ?? defaultCheckList ?? []
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -179,24 +188,85 @@ export const UnitForm: FC<
               </tr>
             </thead>
             <tbody>
-              {(createCheckInputList ?? []).map((check) => (
+              {(checkInputList ?? []).map((check, checkIndex) => (
                 <tr
                   key={check.id}
                   style={{
                     borderBottom: "solid 1px rgba(0, 0, 0, 0.1)",
                   }}
                 >
-                  <CheckListTD>{check.largeCategory}</CheckListTD>
-                  <CheckListTD>{check.mediumCategory}</CheckListTD>
-                  <CheckListTD>{check.smallCategory}</CheckListTD>
-                  <CheckListTD>{check.part}</CheckListTD>
-                  <CheckListTD>{check.detail}</CheckListTD>
+                  <CheckListTD>
+                    <SmallInput
+                      value={check.largeCategory}
+                      onChange={({ target: { value } }) => {
+                        setCheckInputList([
+                          ...checkInputList.map((c) =>
+                            c.id == check.id
+                              ? { ...c, largeCategory: value }
+                              : c
+                          ),
+                        ])
+                      }}
+                    />
+                  </CheckListTD>
+                  <CheckListTD>
+                    <SmallInput
+                      value={check.mediumCategory}
+                      onChange={({ target: { value } }) => {
+                        setCheckInputList([
+                          ...checkInputList.map((c) =>
+                            c.id == check.id
+                              ? { ...c, mediumCategory: value }
+                              : c
+                          ),
+                        ])
+                      }}
+                    />
+                  </CheckListTD>
+                  <CheckListTD>
+                    <SmallInput
+                      value={check.smallCategory}
+                      onChange={({ target: { value } }) => {
+                        setCheckInputList([
+                          ...checkInputList.map((c) =>
+                            c.id == check.id
+                              ? { ...c, smallCategory: value }
+                              : c
+                          ),
+                        ])
+                      }}
+                    />
+                  </CheckListTD>
+                  <CheckListTD>
+                    <SmallInput
+                      value={check.part}
+                      onChange={({ target: { value } }) => {
+                        setCheckInputList([
+                          ...checkInputList.map((c) =>
+                            c.id == check.id ? { ...c, part: value } : c
+                          ),
+                        ])
+                      }}
+                    />
+                  </CheckListTD>
+                  <CheckListTD>
+                    <SmallInput
+                      value={check.detail}
+                      onChange={({ target: { value } }) => {
+                        setCheckInputList([
+                          ...checkInputList.map((c) =>
+                            c.id == check.id ? { ...c, detail: value } : c
+                          ),
+                        ])
+                      }}
+                    />
+                  </CheckListTD>
                   <CheckListTD>
                     <select
                       value={check.rank}
                       onChange={({ target: { value } }) => {
-                        setCreateCheckInputList([
-                          ...createCheckInputList.map((c) =>
+                        setCheckInputList([
+                          ...checkInputList.map((c) =>
                             c.id == check.id ? { ...c, rank: value } : c
                           ),
                         ])
@@ -209,6 +279,30 @@ export const UnitForm: FC<
                         </option>
                       ))}
                     </select>
+                  </CheckListTD>
+                  <CheckListTD>
+                    <p
+                      style={{
+                        color: "#277",
+                        cursor: "pointer",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={() =>
+                        setCheckInputList([
+                          ...checkInputList.slice(0, checkIndex + 1),
+                          {
+                            ...check,
+                            id: generateIdFromCheck({
+                              ...check,
+                            }),
+                            rank: undefined,
+                          },
+                          ...checkInputList.slice(checkIndex + 1),
+                        ])
+                      }
+                    >
+                      &#043;
+                    </p>
                   </CheckListTD>
                 </tr>
               ))}

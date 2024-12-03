@@ -9,5 +9,6 @@ export const generateIdFromCheck = (check: PrismaJson.CheckTemplate) =>
       check.mediumCategory,
       check.smallCategory,
       check.part,
+      check.detail,
     ].join("-")
   )

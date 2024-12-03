@@ -54,6 +54,26 @@ export const Input: FC<ComponentProps<"input">> = ({ style, ...props }) => (
   />
 )
 
+export const SmallInput: FC<ComponentProps<"input">> = ({
+  style,
+  ...props
+}) => (
+  <Input
+    style={{
+      background: "transparent",
+      border: "none",
+      borderRadius: "none",
+      color: "#000",
+      fontSize: ".9rem",
+      fontWeight: "normal",
+      outline: "none",
+      padding: ".25rem .25rem",
+      ...style,
+    }}
+    {...props}
+  />
+)
+
 export const MultiLineInput: FC<ComponentProps<"textarea">> = ({
   style,
   ...props
