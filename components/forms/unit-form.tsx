@@ -106,6 +106,7 @@ export const UnitForm: FC<
     setCreateCheckInputList(
       unit?.checkList ?? house.checkListTemplate ?? defaultCheckList ?? []
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unit])
   return (
     <>
