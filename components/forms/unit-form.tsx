@@ -11,6 +11,7 @@ import { InputFileButton } from "../elements/form"
 import { resizeImage } from "@/lib/file"
 import { ImageDialog } from "../modules/image-dialog"
 import { generateIdFromCheck } from "@/lib/text"
+import { CheckDialog } from "../modules/check-dialog"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
   <td
@@ -37,6 +38,7 @@ export const UnitForm: FC<
   const router = useRouter()
   const [checkInputList, setCheckInputList] = useState<PrismaJson.Check[]>([])
   const [comment, setComment] = useState<string>(unit?.comment ?? "")
+  const [editedCheck, setEditedCheck] = useState<PrismaJson.Check>()
   const [images, setImages] = useState<
     {
       id?: number
@@ -283,6 +285,16 @@ export const UnitForm: FC<
                   <CheckListTD>
                     <p
                       style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setEditedCheck(check)}
+                    >
+                      &#x1f4cd;
+                    </p>
+                  </CheckListTD>
+                  <CheckListTD>
+                    <p
+                      style={{
                         color: "#277",
                         cursor: "pointer",
                         fontWeight: "bolder",
@@ -310,6 +322,20 @@ export const UnitForm: FC<
           </table>
         </div>
       </form>
+      {editedCheck && (
+        <CheckDialog
+          check={editedCheck}
+          defaultPosition={{ ...house }}
+          onChangePosition={({ position, check }) =>
+            setCheckInputList([
+              ...checkInputList.map((c) =>
+                c.id == check.id ? { ...c, ...position } : c
+              ),
+            ])
+          }
+          onClose={() => setEditedCheck(undefined)}
+        />
+      )}
     </>
   )
 }
