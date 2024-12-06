@@ -8,20 +8,18 @@ import { supabase } from "@/lib/supabase"
 
 export const Main: FC<ComponentProps<"main">> = ({ children, ...props }) => {
   const [account, setAccount] = useAtom(accountAtom)
-  const [params, setParams] = useState<{ email: string; password: string }>({
+  const [params, setParams] = useState<{ email: string }>({
     email: "",
-    password: "",
   })
+  const [isSigning, setUsSigning] = useState<boolean>(false)
+
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const {
-      error,
-      data: { user },
-    } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithOtp({
       ...params,
     })
     if (error) return
-    if (user) setAccount(user)
+    setUsSigning(true)
   }
   return (
     <main
@@ -53,29 +51,23 @@ export const Main: FC<ComponentProps<"main">> = ({ children, ...props }) => {
               >
                 公共住宅点検アプリ
               </h1>
-              <form onSubmit={handleSignIn}>
-                <Field>
-                  <label>Email</label>
-                  <Input
-                    type="email"
-                    value={params.email}
-                    onChange={({ target: { value } }) =>
-                      setParams({ ...params, email: value })
-                    }
-                  />
-                </Field>
-                <Field>
-                  <label>Password</label>
-                  <Input
-                    type="password"
-                    value={params.password}
-                    onChange={({ target: { value } }) =>
-                      setParams({ ...params, password: value })
-                    }
-                  />
-                </Field>
-                <Button>ログインする</Button>
-              </form>
+              {isSigning ? (
+                <>ログインメールをお送りしました。</>
+              ) : (
+                <form onSubmit={handleSignIn}>
+                  <Field>
+                    <label>Email</label>
+                    <Input
+                      type="email"
+                      value={params.email}
+                      onChange={({ target: { value } }) =>
+                        setParams({ ...params, email: value })
+                      }
+                    />
+                  </Field>
+                  <Button>ログインする</Button>
+                </form>
+              )}
             </div>
           </>
         )}
