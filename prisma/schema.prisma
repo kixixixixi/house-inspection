@@ -28,12 +28,14 @@ model House {
   stepCount  Int      @default(1)
   structure  Json?
   uid        String?  @unique
+  teamId     Int?
 
   /// [CheckTemplateList]
   checkListTemplate Json?
 
   versions Version[]
 
+  team  Team?  @relation(fields: [teamId], references: [id], onDelete: Cascade)
   units Unit[]
 }
 
@@ -84,9 +86,11 @@ model Version {
 }
 
 model Team {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
+  id   Int    @id @default(autoincrement())
+  name String
+
+  users  User[]
+  houses House[]
 }
 
 model User {
