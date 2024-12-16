@@ -18,6 +18,9 @@ export const GET = async (request: NextRequest): Promise<NextResponse> => {
 }
 
 export const POST = async (request: NextRequest): Promise<NextResponse> => {
+  const user = await authenticate(request)
+  if (!user || !user.teamId)
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
   const body: Prisma.HouseCreateInput = await request.json()
   const altitude = (await fetchAltitude({ ...body })) ?? 0
   const house = await prisma.house.create({
@@ -33,6 +36,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
       )
         .split(".")[1]
         .slice(0, 2)}`,
+      team: { connect: { id: user.teamId } },
     },
   })
   const version = await prisma.version.create({

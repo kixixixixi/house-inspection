@@ -5,10 +5,10 @@ import { useEffect, useState } from "react"
 import { Button, Field, Input } from "components/elements"
 import type { NextPage } from "next"
 import { House, Prisma } from "@prisma/client/"
-import ky from "ky"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { searchAddress } from "@/lib/request"
+import { api } from "@/lib/api"
 const Map = dynamic(() => import("components/modules/map"), {
   ssr: false,
 })
@@ -26,7 +26,7 @@ const HouseNewPage: NextPage = () => {
   const [addressText, setAddressText] = useState<string>("")
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const { house } = await ky
+    const { house } = await (await api())
       .post("/api/house", { json: { ...createInput } })
       .json<{ house: House }>()
     console.log(house)
