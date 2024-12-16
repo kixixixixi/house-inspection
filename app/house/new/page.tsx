@@ -29,7 +29,6 @@ const HouseNewPage: NextPage = () => {
     const { house } = await (await api())
       .post("/api/house", { json: { ...createInput } })
       .json<{ house: House }>()
-    console.log(house)
     router.push(`/house/${house.id}`)
   }
   const handleSearch = async () => {
