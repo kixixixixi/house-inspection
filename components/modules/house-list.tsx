@@ -8,43 +8,49 @@ export const HouseList: FC<ComponentProps<"div"> & { list: House[] }> = ({
 }) => {
   return (
     <div {...props}>
-      <table style={{ width: "100%" }}>
-        <thead>
-          <tr>
-            <td>名称</td>
-            <td>作成日時/更新日時</td>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((house, i) => (
-            <tr
-              key={house.id}
-              style={{ background: i % 2 == 0 ? "#ececec" : "#e6e6e6" }}
-            >
-              <th
-                style={{
-                  padding: ".25rem",
-                }}
+      {list.length > 0 && (
+        <table style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              <td>名称</td>
+              <td>作成日時/更新日時</td>
+            </tr>
+          </thead>
+          <tbody>
+            {list.map((house, i) => (
+              <tr
+                key={house.id}
+                style={{ background: i % 2 == 0 ? "#ececec" : "#e6e6e6" }}
               >
-                <Link href={`/house/${house.id}`}>{house.name}</Link>
-              </th>
-              <td>
-                <div
+                <th
                   style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: ".25rem",
                     padding: ".25rem",
                   }}
                 >
-                  <p>{new Date(house.createdAt.toString()).toLocaleString()}</p>
-                  <p>{new Date(house.updatedAt.toString()).toLocaleString()}</p>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <Link href={`/house/${house.id}`}>{house.name}</Link>
+                </th>
+                <td>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: ".25rem",
+                      padding: ".25rem",
+                    }}
+                  >
+                    <p>
+                      {new Date(house.createdAt.toString()).toLocaleString()}
+                    </p>
+                    <p>
+                      {new Date(house.updatedAt.toString()).toLocaleString()}
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   )
 }
