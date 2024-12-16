@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "lib/db"
 import { Prisma } from "@prisma/client"
 import { fetchAltitude } from "@/lib/request"
+import { authenticate } from "@/lib/authenticate"
 
 export const GET = async (request: NextRequest): Promise<NextResponse> => {
+  const user = await authenticate(request)
+  if (!user)
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
   const houseList = await prisma.house.findMany({
+    where: { teamId: user.teamId },
     orderBy: { createdAt: "desc" },
   })
   return NextResponse.json({

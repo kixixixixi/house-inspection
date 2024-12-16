@@ -5,15 +5,15 @@ import { NextPage } from "next"
 import { HouseList } from "@/components/modules/house-list"
 import { useEffect, useState } from "react"
 import { House } from "@prisma/client"
-import ky from "ky"
 import { Button } from "@/components/elements"
 import { defaultCheckList } from "@/lib/constant/check-list"
+import { api } from "@/lib/api"
 
 const Home: NextPage = () => {
   const [houseList, setHouseList] = useState<House[]>([])
   useEffect(() => {
     const fetch = async () => {
-      const response = await ky.get(`/api/house`)
+      const response = await (await api()).get(`/api/house`)
       const { houseList } = await response.json<{ houseList: House[] }>()
       setHouseList(houseList)
     }
