@@ -2,7 +2,9 @@ import { md5 } from "js-md5"
 
 export const hash = (text: string) => md5(text)
 
-export const generateIdFromCheck = (check: PrismaJson.CheckTemplate) =>
+export const generateIdFromCheck = (
+  check: Omit<PrismaJson.CheckTemplate, "id">
+) =>
   hash(
     [
       check.largeCategory,

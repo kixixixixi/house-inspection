@@ -22,7 +22,7 @@ export const Dialog: FC<ComponentProps<"dialog">> = ({
           border: "none",
           borderRadius: "1rem",
           boxShadow: "0 0 0 100vmax rgba(0, 0, 0, 0.3)",
-          inlineSize: "min(42rem, 90vw)",
+          inlineSize: "min(64rem, 90vw)",
           inset: 0,
           margin: "auto",
           minBlockSize: "12rem",

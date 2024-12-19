@@ -8,6 +8,7 @@ import { House } from "@prisma/client"
 import { Button } from "@/components/elements"
 import { defaultCheckList } from "@/lib/constant/check-list"
 import { api } from "@/lib/api"
+import { CheckListImport } from "@/components/modules/check-list-import"
 
 const Home: NextPage = () => {
   const [houseList, setHouseList] = useState<House[]>([])
@@ -80,7 +81,7 @@ const Home: NextPage = () => {
           }}
         >
           <Button onClick={downloadCheckList}>チェックリスト出力</Button>
-          <Button>チェックリスト取込</Button>
+          <CheckListImport onSubmit={() => {}} />
         </div>
       </section>
     </>

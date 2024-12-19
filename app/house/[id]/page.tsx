@@ -9,7 +9,8 @@ import { House, Unit, Version } from "@prisma/client"
 import ky from "ky"
 import { LinkButton } from "@/components/elements/link"
 import Link from "next/link"
-import { Button } from "@/components/elements"
+import { CheckListImport } from "@/components/modules/check-list-import"
+import { api } from "@/lib/api"
 
 const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
@@ -41,6 +42,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
     }
     fetch()
   }, [id])
+
   return (
     <>
       <section
@@ -109,7 +111,19 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
               </div>
             </div>
             <div>
-              <Button>チェックリスト取込</Button>
+              <CheckListImport
+                onSubmit={async (checkListTemplate) => {
+                  const response = await (
+                    await api()
+                  ).patch(`/api/house/${house.id}`, {
+                    json: { checkListTemplate },
+                  })
+                  const { house: newHouse } = await response.json<{
+                    house: House
+                  }>()
+                  setHouse({ ...house, ...newHouse })
+                }}
+              />
             </div>
             <div
               style={{
@@ -200,9 +214,6 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
             )}
           </>
         )}
-        <div>
-          <Button>チェックリスト取込</Button>
-        </div>
       </section>
     </>
   )
