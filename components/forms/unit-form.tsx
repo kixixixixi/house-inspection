@@ -203,7 +203,7 @@ export const UnitForm: FC<
                       onChange={({ target: { value } }) => {
                         setCheckInputList([
                           ...checkInputList.map((c) =>
-                            c.id == check.id
+                            c.id == check.id && checkIndex == checkIndex
                               ? { ...c, largeCategory: value }
                               : c
                           ),
@@ -216,8 +216,8 @@ export const UnitForm: FC<
                       value={check.mediumCategory}
                       onChange={({ target: { value } }) => {
                         setCheckInputList([
-                          ...checkInputList.map((c) =>
-                            c.id == check.id
+                          ...checkInputList.map((c, i) =>
+                            c.id == check.id && i == checkIndex
                               ? { ...c, mediumCategory: value }
                               : c
                           ),
@@ -230,8 +230,8 @@ export const UnitForm: FC<
                       value={check.smallCategory}
                       onChange={({ target: { value } }) => {
                         setCheckInputList([
-                          ...checkInputList.map((c) =>
-                            c.id == check.id
+                          ...checkInputList.map((c, i) =>
+                            c.id == check.id && i == checkIndex
                               ? { ...c, smallCategory: value }
                               : c
                           ),
@@ -244,8 +244,10 @@ export const UnitForm: FC<
                       value={check.part}
                       onChange={({ target: { value } }) => {
                         setCheckInputList([
-                          ...checkInputList.map((c) =>
-                            c.id == check.id ? { ...c, part: value } : c
+                          ...checkInputList.map((c, i) =>
+                            c.id == check.id && i == checkIndex
+                              ? { ...c, part: value }
+                              : c
                           ),
                         ])
                       }}
@@ -256,8 +258,10 @@ export const UnitForm: FC<
                       value={check.detail}
                       onChange={({ target: { value } }) => {
                         setCheckInputList([
-                          ...checkInputList.map((c) =>
-                            c.id == check.id ? { ...c, detail: value } : c
+                          ...checkInputList.map((c, i) =>
+                            c.id == check.id && i == checkIndex
+                              ? { ...c, detail: value }
+                              : c
                           ),
                         ])
                       }}
@@ -268,8 +272,10 @@ export const UnitForm: FC<
                       value={check.rank}
                       onChange={({ target: { value } }) => {
                         setCheckInputList([
-                          ...checkInputList.map((c) =>
-                            c.id == check.id ? { ...c, rank: value } : c
+                          ...checkInputList.map((c, i) =>
+                            c.id == check.id && i == checkIndex
+                              ? { ...c, rank: value }
+                              : c
                           ),
                         ])
                       }}
