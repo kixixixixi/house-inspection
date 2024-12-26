@@ -21,7 +21,7 @@ export const Button: FC<ComponentProps<"button"> & { selected?: boolean }> = ({
         background: selected ? "transparent" : tintColor,
         border: "solid 2px",
         borderColor: tintColor,
-        borderRadius: "2rem",
+        borderRadius: ".3rem",
         color: selected ? tintColor : "#eee",
         cursor: "pointer",
         fontSize: "1rem",
@@ -42,7 +42,7 @@ export const Input: FC<ComponentProps<"input">> = ({ style, ...props }) => (
   <input
     style={{
       border: "solid 1px #277",
-      borderRadius: "1rem",
+      borderRadius: ".3rem",
       color: "#333",
       fontSize: "1rem",
       fontWeight: "bold",
@@ -81,7 +81,7 @@ export const MultiLineInput: FC<ComponentProps<"textarea">> = ({
   <textarea
     style={{
       border: "solid 1px #277",
-      borderRadius: "1rem",
+      borderRadius: ".3rem",
       color: "#333",
       flexGrow: 1,
       fontSize: "1rem",

@@ -20,7 +20,7 @@ export const Dialog: FC<ComponentProps<"dialog">> = ({
         ref={ref}
         style={{
           border: "none",
-          borderRadius: "1rem",
+          borderRadius: ".3rem",
           boxShadow: "0 0 0 100vmax rgba(0, 0, 0, 0.3)",
           inlineSize: "min(64rem, 90vw)",
           inset: 0,
