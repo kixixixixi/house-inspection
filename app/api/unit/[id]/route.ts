@@ -4,8 +4,12 @@ import { Prisma, Unit } from "@prisma/client"
 
 export const PATCH = async (
   request: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<{ unit: Unit }>> => {
+  const params = await props.params
+
+  const { id } = params
+
   const body: Prisma.UnitUpdateInput = await request.json()
   const unit = await prisma.unit.update({
     where: { id: parseInt(id) },
@@ -16,9 +20,10 @@ export const PATCH = async (
 
 export const DELETE = async (
   request: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<{ message: string }>> => {
-  const unit = await prisma.unit.delete({ where: { id: parseInt(id) } })
+  const params = await props.params
+  const unit = await prisma.unit.delete({ where: { id: parseInt(params.id) } })
   await prisma.house.update({
     where: { id: unit.houseId },
     data: { updatedAt: new Date() },

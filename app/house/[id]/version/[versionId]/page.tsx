@@ -1,7 +1,7 @@
 "use client"
 
 import { NextPage } from "next"
-import { useEffect, useState, type ComponentProps, type FC } from "react"
+import { useEffect, useState, type ComponentProps, type FC, use } from "react"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
 import { House, Unit, Version } from "@prisma/client"
 import { api } from "@/lib/api"
@@ -21,8 +21,12 @@ const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
 )
 
 const HouseIdVersionPage: NextPage<{
-  params: { id: string; versionId: string }
-}> = ({ params: { id, versionId } }) => {
+  params: Promise<{ id: string; versionId: string }>
+}> = (props) => {
+  const params = use(props.params)
+
+  const { id, versionId } = params
+
   const [version, setVersion] = useState<Version & { house: House }>()
   const [units, setUnits] = useState<Unit[]>()
   useEffect(() => {

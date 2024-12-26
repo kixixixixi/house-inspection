@@ -4,8 +4,12 @@ import { Prisma, Image } from "@prisma/client"
 
 export const PATCH = async (
   request: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<{ image: Image }>> => {
+  const params = await props.params
+
+  const { id } = params
+
   const body: Prisma.ImageUpdateInput = await request.json()
   const image = await prisma.image.update({
     where: { id: parseInt(id) },
@@ -18,8 +22,9 @@ export const PATCH = async (
 
 export const DELETE = async (
   request: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<{ message: string }>> => {
-  await prisma.image.delete({ where: { id: parseInt(id) } })
+  const params = await props.params
+  await prisma.image.delete({ where: { id: parseInt(params.id) } })
   return NextResponse.json({ message: "削除しました" })
 }

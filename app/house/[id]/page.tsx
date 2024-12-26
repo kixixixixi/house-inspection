@@ -1,7 +1,7 @@
 "use client"
 
 import { NextPage } from "next"
-import { useEffect, useState, type ComponentProps, type FC } from "react"
+import { useEffect, useState, type ComponentProps, type FC, use } from "react"
 import { HouseDelete } from "@/components/services/house-delete"
 import { OuteriorUnits, ResidenceUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
@@ -25,9 +25,11 @@ const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   />
 )
 
-const HouseIdPage: NextPage<{ params: { id: string } }> = ({
-  params: { id },
-}) => {
+const HouseIdPage: NextPage<{ params: Promise<{ id: string }> }> = (props) => {
+  const params = use(props.params)
+
+  const { id } = params
+
   const [house, setHouse] = useState<
     House & { units?: Unit[]; versions?: Version[] }
   >()

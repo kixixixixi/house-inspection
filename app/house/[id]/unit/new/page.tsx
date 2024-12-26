@@ -5,9 +5,14 @@ import { OuteriorUnits, UnitType, UnitTypes } from "@/lib/constant/unit"
 import { UnitForm } from "@/components/forms/unit-form"
 
 const HouseIdUnitNewPage: NextPage<{
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}> = async ({ params: { id }, searchParams }) => {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}> = async (props) => {
+  const searchParams = await props.searchParams
+  const params = await props.params
+
+  const { id } = params
+
   const { type, floor, index } = searchParams
 
   if (

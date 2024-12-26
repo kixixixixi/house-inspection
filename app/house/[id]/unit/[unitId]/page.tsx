@@ -6,8 +6,12 @@ import { UnitDelete } from "@/components/services/unit-delete"
 import { Button } from "@/components/elements"
 
 const HouseIdUnitPage: NextPage<{
-  params: { id: string; unitId: string }
-}> = async ({ params: { id, unitId } }) => {
+  params: Promise<{ id: string; unitId: string }>
+}> = async (props) => {
+  const params = await props.params
+
+  const { id, unitId } = params
+
   const unit = await prisma.unit.findUniqueOrThrow({
     where: { id: parseInt(unitId) },
     include: { house: true, images: true },
