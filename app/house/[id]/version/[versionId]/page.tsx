@@ -2,7 +2,6 @@
 
 import { NextPage } from "next"
 import { useEffect, useState, type ComponentProps, type FC } from "react"
-import { OuteriorUnits, ResidenceUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
 import { House, Unit, Version } from "@prisma/client"
 import { api } from "@/lib/api"
