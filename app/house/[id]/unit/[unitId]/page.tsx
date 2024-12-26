@@ -41,7 +41,7 @@ const HouseIdUnitPage: NextPage<{
           name={unit.name}
           unit={unit}
         />
-        <div>
+        <div style={{ padding: ".5rem" }}>
           <DownloadCheckListButton unit={unit} />
         </div>
       </section>
