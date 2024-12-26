@@ -134,68 +134,80 @@ const HouseIdPage: NextPage<{ params: Promise<{ id: string }> }> = (props) => {
                 padding: "1rem 0",
               }}
             >
-              <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
-                外構
-              </p>
-              <RowSection>
-                {OuteriorUnits.map((unit) => (
-                  <UnitLinkButton
-                    key={unit.index}
-                    unitType="outerior"
-                    {...unit}
-                    floor={1}
-                    house={house}
-                  ></UnitLinkButton>
-                ))}
-              </RowSection>
-              <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
-                住棟
-              </p>
-              <RowSection>
-                {ResidenceUnits.map((unit) => (
-                  <UnitLinkButton
-                    key={unit.index}
-                    unitType="residence"
-                    {...unit}
-                    floor={1}
-                    house={house}
-                  ></UnitLinkButton>
-                ))}
-              </RowSection>
-              <p style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}>
-                ユニット
-              </p>
-              {[...Array(house.floorCount).keys()]
-                .map((i) => house.floorCount - i)
-                .map((i) => (
-                  <>
-                    <div>{i}階</div>
-                    <RowSection key={i}>
-                      {[...Array(house.roomCount).keys()]
-                        .map((j) => j + 1)
-                        .map((j) => (
-                          <UnitLinkButton
-                            key={j}
-                            unitType="room"
-                            index={j}
-                            floor={i}
-                            house={house}
-                          ></UnitLinkButton>
-                        ))}
-                      {[...Array(house.stepCount).keys()]
-                        .map((j) => j + 1)
-                        .map((j) => (
-                          <UnitLinkButton
-                            key={j}
-                            unitType="step"
-                            index={j}
-                            floor={i}
-                            house={house}
-                          ></UnitLinkButton>
-                        ))}
-                    </RowSection>
-                  </>
-                ))}
+              <div>
+                <p
+                  style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}
+                >
+                  外構
+                </p>
+                <RowSection key={1}>
+                  {OuteriorUnits.map((unit) => (
+                    <UnitLinkButton
+                      key={unit.index}
+                      unitType="outerior"
+                      {...unit}
+                      floor={1}
+                      house={house}
+                    ></UnitLinkButton>
+                  ))}
+                </RowSection>
+              </div>
+              <div>
+                <p
+                  style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}
+                >
+                  住棟
+                </p>
+                <RowSection>
+                  {ResidenceUnits.map((unit) => (
+                    <UnitLinkButton
+                      key={unit.index}
+                      unitType="residence"
+                      {...unit}
+                      floor={1}
+                      house={house}
+                    ></UnitLinkButton>
+                  ))}
+                </RowSection>
+              </div>
+              <div>
+                <p
+                  style={{ borderBottom: "solid 1px #ccc", padding: ".25rem" }}
+                >
+                  ユニット
+                </p>
+                {[...Array(house.floorCount).keys()]
+                  .map((i) => house.floorCount - i)
+                  .map((i) => (
+                    <div key={i}>
+                      <div>{i}階</div>
+                      <RowSection>
+                        {[...Array(house.roomCount).keys()]
+                          .map((j) => j + 1)
+                          .map((j) => (
+                            <UnitLinkButton
+                              key={j}
+                              unitType="room"
+                              index={j}
+                              floor={i}
+                              house={house}
+                            ></UnitLinkButton>
+                          ))}
+                        {[...Array(house.stepCount).keys()]
+                          .map((j) => j + 1)
+                          .map((j) => (
+                            <UnitLinkButton
+                              key={j}
+                              unitType="step"
+                              index={j}
+                              floor={i}
+                              house={house}
+                            ></UnitLinkButton>
+                          ))}
+                      </RowSection>
+                    </div>
+                  ))}
+              </div>
             </div>
             {house.versions && (
               <div>
