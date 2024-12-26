@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db"
 import Link from "next/link"
 import { UnitForm } from "@/components/forms/unit-form"
 import { UnitDelete } from "@/components/services/unit-delete"
-import { Button } from "@/components/elements"
+import { DownloadCheckListButton } from "@/components/modules/download-check-list-button"
 
 const HouseIdUnitPage: NextPage<{
   params: Promise<{ id: string; unitId: string }>
@@ -16,28 +16,7 @@ const HouseIdUnitPage: NextPage<{
     where: { id: parseInt(unitId) },
     include: { house: true, images: true },
   })
-  const handleDownload = async () => {
-    if (!unit.checkList) return
-    const csv = [
-      ["大項目", "中項目", "小項目", "各部位", "部所", "ランク"].join(","),
-      ...unit.checkList.map((row) =>
-        [
-          row.largeCategory,
-          row.mediumCategory,
-          row.smallCategory,
-          row.part,
-          row.detail,
-          row.rank,
-        ].join(",")
-      ),
-    ].join("\n")
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.setAttribute("href", url)
-    link.setAttribute("download", `${unit.name}-チェックリスト.csv`)
-    link.click()
-  }
+
   return (
     <>
       <section
@@ -63,7 +42,7 @@ const HouseIdUnitPage: NextPage<{
           unit={unit}
         />
         <div>
-          <Button onClick={handleDownload}>ダウンロード</Button>
+          <DownloadCheckListButton unit={unit} />
         </div>
       </section>
     </>
