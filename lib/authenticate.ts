@@ -14,6 +14,7 @@ export const authenticate = async (request: NextRequest) => {
 
   const user = await prisma.user.findUnique({
     where: { authId: sub },
+    include: { team: true },
   })
   if (!user) return
 

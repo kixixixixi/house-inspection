@@ -4,7 +4,7 @@ import { LinkButton } from "@/components/elements/link"
 import { NextPage } from "next"
 import { HouseList } from "@/components/modules/house-list"
 import { useEffect, useState } from "react"
-import { House } from "@prisma/client"
+import { House, Team, User } from "@prisma/client"
 import { Button } from "@/components/elements"
 import { defaultCheckList } from "@/lib/constant/check-list"
 import { api } from "@/lib/api"
@@ -12,10 +12,16 @@ import { CheckListImport } from "@/components/modules/check-list-import"
 
 const Home: NextPage = () => {
   const [houseList, setHouseList] = useState<House[]>([])
+  const [me, setMe] = useState<User & { team?: Team }>()
   useEffect(() => {
     const fetch = async () => {
-      const response = await (await api()).get(`/api/house`)
-      const { houseList } = await response.json<{ houseList: House[] }>()
+      const request = await api()
+      const meResponse = await request.get(`/api/user`)
+      const { user } = await meResponse.json<{ user: User & { team?: Team } }>()
+      setMe(user)
+
+      const houseResponse = await request.get(`/api/house`)
+      const { houseList } = await houseResponse.json<{ houseList: House[] }>()
       setHouseList(houseList)
     }
     fetch()
@@ -61,6 +67,24 @@ const Home: NextPage = () => {
         >
           公共住宅点検アプリ
         </h1>
+        <div
+          style={{
+            display: "flex",
+            gap: ".5rem",
+            justifyContent: "space-evenly",
+            maxWidth: "30rem",
+            width: "100%",
+          }}
+        >
+          <dl>
+            <dt>組織名</dt>
+            <dd>{me?.team?.name}</dd>
+          </dl>
+          <dl>
+            <dt>アカウントメールアドレス</dt>
+            <dd>{me?.email}</dd>
+          </dl>
+        </div>
         <div
           style={{
             display: "flex",
