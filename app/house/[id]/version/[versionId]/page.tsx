@@ -5,7 +5,7 @@ import { useEffect, useState, type ComponentProps, type FC } from "react"
 import { OuteriorUnits, ResidenceUnits } from "@/lib/constant/unit"
 import { UnitLinkButton } from "@/components/modules/unit-link-button"
 import { House, Unit, Version } from "@prisma/client"
-import ky from "ky"
+import { api } from "@/lib/api"
 
 const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
@@ -28,7 +28,7 @@ const HouseIdVersionPage: NextPage<{
   const [units, setUnits] = useState<Unit[]>()
   useEffect(() => {
     const fetch = async () => {
-      const response = await ky.get(`/api/version/${versionId}`)
+      const response = await (await api()).get(`/api/version/${versionId}`)
       const { version, units } = await response.json<{
         version: Version & { house: House }
         units?: Unit[]

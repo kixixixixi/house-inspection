@@ -5,13 +5,13 @@ import { defaultCheckList } from "lib/constant/check-list"
 import { ComponentProps, FC, FormEvent, useEffect, useState } from "react"
 import { RankList } from "@/lib/constant/unit"
 import { House, Prisma, Unit, Image } from "@prisma/client"
-import ky from "ky"
 import { useRouter } from "next/navigation"
 import { InputFileButton } from "../elements/form"
 import { resizeImage } from "@/lib/file"
 import { ImageDialog } from "../modules/image-dialog"
 import { generateIdFromCheck } from "@/lib/text"
 import { CheckDialog } from "../modules/check-dialog"
+import { api } from "@/lib/api"
 
 export const CheckListTD: FC<ComponentProps<"td">> = ({ style, ...props }) => (
   <td
@@ -75,7 +75,9 @@ export const UnitForm: FC<
             })),
         },
       }
-      const response = await ky.patch(`/api/unit/${unit.id}`, {
+      const response = await (
+        await api()
+      ).patch(`/api/unit/${unit.id}`, {
         json: body,
       })
     } else {
@@ -91,7 +93,9 @@ export const UnitForm: FC<
           create: images,
         },
       }
-      const response = await ky.post(`/api/unit`, {
+      const response = await (
+        await api()
+      ).post(`/api/unit`, {
         json: { ...body, version: { reason: "ユニット追加" } },
       })
     }

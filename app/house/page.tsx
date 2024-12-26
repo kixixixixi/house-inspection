@@ -4,10 +4,10 @@ import { NextPage } from "next"
 import { HouseList } from "@/components/modules/house-list"
 import { House } from "@prisma/client"
 import { FormEvent, useEffect, useState } from "react"
-import ky from "ky"
 import dynamic from "next/dynamic"
 import { Button, Input } from "@/components/elements"
 import { searchAddress } from "@/lib/request"
+import { api } from "@/lib/api"
 
 const MultiMarkerMap = dynamic(
   () => import("components/modules/multi-maker-map"),
@@ -28,7 +28,7 @@ const HousePage: NextPage = () => {
   const [address, setAddress] = useState<string>("")
   useEffect(() => {
     const fetch = async () => {
-      const response = await ky.get(`/api/house`)
+      const response = await (await api()).get(`/api/house`)
       const { houseList } = await response.json<{ houseList: House[] }>()
       setHouseList(houseList)
     }

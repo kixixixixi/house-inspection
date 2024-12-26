@@ -1,9 +1,9 @@
 "use client"
 import { useState, type ComponentProps, type FC } from "react"
 import { Button, Input } from "components/elements"
-import ky from "ky"
 import { Image } from "@prisma/client"
 import Map from "./map"
+import { api } from "@/lib/api"
 
 export const ImageDialog: FC<
   ComponentProps<"div"> & {
@@ -93,7 +93,8 @@ export const ImageDialog: FC<
               <Button
                 type="button"
                 onClick={async () => {
-                  if (image.id) await ky.delete(`/api/image/${image.id}`)
+                  if (image.id)
+                    await (await api()).delete(`/api/image/${image.id}`)
                   await onDelete()
                 }}
               >
@@ -104,12 +105,11 @@ export const ImageDialog: FC<
                   type="button"
                   onClick={async () => {
                     if (image.id) {
-                      const response = await ky.patch(
-                        `/api/image/${image.id}`,
-                        {
-                          json: { comment, ...position },
-                        }
-                      )
+                      const response = await (
+                        await api()
+                      ).patch(`/api/image/${image.id}`, {
+                        json: { comment, ...position },
+                      })
                       await response.json<{ image: Image }>()
                       setIsOpenDialog(false)
                     }

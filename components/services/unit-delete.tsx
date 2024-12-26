@@ -3,7 +3,7 @@
 import { type ComponentProps, type FC } from "react"
 import { useRouter } from "next/navigation"
 import { DeleteDialog } from "../modules/delete-dialog"
-import ky from "ky"
+import { api } from "@/lib/api"
 
 export const UnitDelete: FC<
   ComponentProps<"div"> & { unitId: number; houseId?: number }
@@ -13,7 +13,7 @@ export const UnitDelete: FC<
     <DeleteDialog
       {...props}
       onSubmit={async () => {
-        const response = await ky.delete(`/api/unit/${unitId}`)
+        const response = await (await api()).delete(`/api/unit/${unitId}`)
         if (houseId) {
           router.push(`/house/${houseId}`)
         } else {
