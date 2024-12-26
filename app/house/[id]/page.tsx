@@ -34,7 +34,7 @@ const HouseIdPage: NextPage<{ params: { id: string } }> = ({
   >()
   useEffect(() => {
     const fetch = async () => {
-      const response = await ky.get(`/api/house/${id}`)
+      const response = await (await api()).get(`/api/house/${id}`)
       const { house } = await response.json<{
         house: House & { units?: Unit[] }
       }>()
