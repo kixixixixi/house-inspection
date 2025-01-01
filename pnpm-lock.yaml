@@ -73,10 +73,10 @@ importers:
         specifier: 14.2.3
         version: 14.2.3(eslint@8.57.0)(typescript@5.7.2)
       supabase:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.2.1
+        version: 2.2.1
       typescript:
-        specifier: ^5.6
+        specifier: ^5.7
         version: 5.7.2
 
 packages:
@@ -1608,8 +1608,8 @@ packages:
       babel-plugin-macros:
         optional: true
 
-  supabase@2.0.0:
-    resolution: {integrity: sha512-2Z42hoKgmjMjFMo3pVdVvV8nIDly/ac/v4ZcHSdDJohf+2Y+/OJ1sHGoIvm6v3N4dAGKe3SCovS3+HYFGL1L7w==}
+  supabase@2.2.1:
+    resolution: {integrity: sha512-uTu8f4kT9wE3EEQTAJAWFlHyu8ymauFxWEz2FDGIQ2MzlD1Xb1NCHtsj/xvmJWqrGI1jnBYcPuatZVTHj1jR1g==}
     engines: {npm: '>=8'}
     hasBin: true
 
@@ -3489,7 +3489,7 @@ snapshots:
       client-only: 0.0.1
       react: 19.0.0
 
-  supabase@2.0.0:
+  supabase@2.2.1:
     dependencies:
       bin-links: 5.0.0
       https-proxy-agent: 7.0.6
