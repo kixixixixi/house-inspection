@@ -4,7 +4,7 @@ import { useState, type ComponentProps, type FC } from "react"
 
 export const Container: FC<ComponentProps<"div">> = ({ style, ...props }) => (
   <div
-    style={{ height: "100%", margin: "auto", maxWidth: "64rem", ...style }}
+    style={{ height: "100%", margin: "auto", maxWidth: "80rem", ...style }}
     {...props}
   />
 )
