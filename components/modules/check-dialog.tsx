@@ -2,6 +2,7 @@
 import { useState, type ComponentProps, type FC } from "react"
 import { Button } from "components/elements"
 import Map from "./map"
+import { Image } from "@prisma/client"
 
 export const CheckDialog: FC<
   ComponentProps<"div"> & {
@@ -10,13 +11,14 @@ export const CheckDialog: FC<
       longitude: number
     }
     check: PrismaJson.Check
-    onChangePosition: (props: {
+    images?: Image[]
+    onChangeCheck: (props: {
       position: { latitude: number; longitude: number }
       check: PrismaJson.Check
     }) => void
     onClose: () => void
   }
-> = ({ check, defaultPosition, onChangePosition, onClose, ...props }) => {
+> = ({ check, images, defaultPosition, onChangeCheck, onClose, ...props }) => {
   const [position, setPosition] = useState<{
     latitude: number
     longitude: number
@@ -24,6 +26,8 @@ export const CheckDialog: FC<
     latitude: check.latitude ?? defaultPosition.latitude,
     longitude: check.longitude ?? defaultPosition.longitude,
   })
+  const [isActiveEditImage, setIsActiveEditImage] = useState<boolean>(false)
+  const [editedCheck, setEditedCheck] = useState<PrismaJson.Check>(check)
   return (
     <>
       <div {...props}>
@@ -50,6 +54,69 @@ export const CheckDialog: FC<
               justifyContent: "space-between",
             }}
           >
+            <h2>画像</h2>
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                flexWrap: "wrap",
+                padding: ".5rem",
+              }}
+            >
+              {editedCheck.imageIds
+                ?.map((id) => images?.find((i) => i.id == id))
+                .filter((i) => !!i)
+                .map((image, i) => (
+                  <figure
+                    key={i}
+                    style={{
+                      backgroundImage: `url(${image.base64})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      height: "9rem",
+                      width: "12rem",
+                    }}
+                    onClick={() =>
+                      setEditedCheck({
+                        ...editedCheck,
+                        imageIds: [...(editedCheck.imageIds ?? []), image.id],
+                      })
+                    }
+                  />
+                ))}
+            </div>
+            <div>
+              <Button onClick={() => setIsActiveEditImage(!isActiveEditImage)}>
+                画像追加
+              </Button>
+            </div>
+            {isActiveEditImage && (
+              <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
+                {images?.map((image, i) => (
+                  <figure
+                    key={i}
+                    style={{
+                      backgroundImage: `url(${image.base64})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      height: "3rem",
+                      width: "4rem",
+                    }}
+                    onClick={() =>
+                      setEditedCheck({
+                        ...editedCheck,
+                        imageIds: [
+                          ...new Set([
+                            ...(editedCheck.imageIds ?? []),
+                            image.id,
+                          ]),
+                        ],
+                      })
+                    }
+                  />
+                ))}
+              </div>
+            )}
             <h2>位置情報</h2>
             <Map
               latitude={position.latitude}
@@ -70,7 +137,7 @@ export const CheckDialog: FC<
               <Button
                 type="button"
                 onClick={async () => {
-                  onChangePosition({ check, position })
+                  onChangeCheck({ check: editedCheck, position })
                   onClose()
                 }}
               >

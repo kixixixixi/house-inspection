@@ -16,6 +16,7 @@ declare global {
       rank?: string
       latitude?: number
       longitude?: number
+      imageIds?: number[]
     }
     type CheckList = Check[]
   }
