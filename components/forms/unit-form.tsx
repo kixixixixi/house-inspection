@@ -326,6 +326,7 @@ export const UnitForm: FC<
                                 ...check,
                               }),
                               rank: undefined,
+                              imageIds: undefined,
                             },
                             ...checkInputList.slice(checkIndex + 1),
                           ])
