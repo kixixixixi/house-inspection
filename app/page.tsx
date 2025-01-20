@@ -104,7 +104,7 @@ const Home: NextPage = () => {
             gap: "1rem",
           }}
         >
-          <Button onClick={downloadCheckList}>チェックリスト出力</Button>
+          <Button onClick={downloadCheckList}>リスト出力</Button>
           <CheckListImport onSubmit={() => {}} />
         </div>
       </section>
