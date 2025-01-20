@@ -26,7 +26,7 @@ export const CheckListImport: FC<{
   }
   return (
     <>
-      <CsvImportInput onImport={onImport}>チェックリスト取込</CsvImportInput>
+      <CsvImportInput onImport={onImport}>リスト取込</CsvImportInput>
       {template && (
         <>
           <Dialog open={true}>
