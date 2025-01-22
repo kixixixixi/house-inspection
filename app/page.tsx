@@ -57,7 +57,7 @@ const Home: NextPage = () => {
           flexFlow: "column",
           height: "100%",
           justifyContent: "space-evenly",
-          padding: "4rem 2rem",
+          padding: "4rem 1rem",
         }}
       >
         <h1
@@ -89,6 +89,7 @@ const Home: NextPage = () => {
           style={{
             display: "flex",
             gap: "1rem",
+            padding: "1rem",
           }}
         >
           <LinkButton href="/house/new">新規作成</LinkButton>
@@ -102,6 +103,7 @@ const Home: NextPage = () => {
           style={{
             display: "flex",
             gap: "1rem",
+            padding: "1rem",
           }}
         >
           <Button onClick={downloadCheckList}>リスト出力</Button>
