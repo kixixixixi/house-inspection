@@ -37,7 +37,6 @@ export const SignInMenu: FC<ComponentProps<"div"> & {}> = ({
     >
       {account ? (
         <>
-          <div>{account.email}</div>
           <Button
             onClick={async () => {
               await supabase.auth.signOut()
