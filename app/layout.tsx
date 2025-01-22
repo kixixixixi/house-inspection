@@ -29,7 +29,6 @@ export default function RootLayout({
             flexWrap: "wrap",
             justifyContent: "space-between",
             padding: ".75rem",
-            position: "fixed",
             width: "100%",
             zIndex: "2000",
           }}

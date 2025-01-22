@@ -26,7 +26,6 @@ export const Main: FC<ComponentProps<"main">> = ({ children, ...props }) => {
       style={{
         height: "100%",
         minHeight: "100dvh",
-        paddingTop: "3rem",
       }}
       {...props}
     >
