@@ -59,6 +59,9 @@ const MultiMarkerMap: FC<
               position={new LatLng(marker.latitude, marker.longitude)}
               icon={icon({
                 iconUrl: iconImage.src,
+                iconSize: [25, 41],
+                iconAnchor: [25, 41],
+                popupAnchor: [0, -41],
               })}
             >
               <Popup>

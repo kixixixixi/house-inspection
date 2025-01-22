@@ -62,6 +62,9 @@ const Map: FC<
             position={position}
             icon={icon({
               iconUrl: iconImage.src,
+              iconSize: [25, 41],
+              iconAnchor: [25, 41],
+              popupAnchor: [0, -41],
             })}
             draggable={true}
             eventHandlers={{
