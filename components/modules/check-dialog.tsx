@@ -187,6 +187,24 @@ export const CheckDialog: FC<
               >
                 保存
               </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    setEditedCheck({
+                      ...editedCheck,
+                      latitude: position.coords.latitude,
+                      longitude: position.coords.longitude,
+                    })
+                    setPosition({
+                      latitude: position.coords.latitude,
+                      longitude: position.coords.longitude,
+                    })
+                  })
+                }}
+              >
+                現在地にする
+              </Button>
               <Button type="button" onClick={() => onClose()}>
                 閉じる
               </Button>
