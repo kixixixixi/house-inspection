@@ -30,8 +30,9 @@ const HouseIdUnitPage: NextPage<{
           </p>
           <h1>{unit.name}</h1>
         </hgroup>
-        <div style={{ padding: ".5rem" }}>
+        <div style={{ display: "flex", gap: ".5rem", padding: ".5rem" }}>
           <UnitDelete unitId={unit.id} houseId={unit.houseId} />
+          <DownloadCheckListButton unit={unit} />
         </div>
         <UnitForm
           house={unit.house}
@@ -41,9 +42,6 @@ const HouseIdUnitPage: NextPage<{
           name={unit.name}
           unit={unit}
         />
-        <div style={{ padding: ".5rem" }}>
-          <DownloadCheckListButton unit={unit} />
-        </div>
       </section>
     </>
   )
