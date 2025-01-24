@@ -132,253 +132,263 @@ export const UnitForm: FC<
   }, [unit])
   return (
     <>
-      <form onSubmit={handleSave}>
-        <div
-          style={{
-            display: "flex",
-            gap: ".5rem",
-            padding: ".5rem",
-          }}
-        >
-          <MultiLineInput
-            placeholder="メモ"
-            value={comment}
-            onChange={({ target: { value } }) => setComment(value)}
-          />
-          <Button>保存</Button>
-        </div>
-        <div
-          style={{
-            alignItems: "end",
-            display: "flex",
-            gap: ".5rem",
-            padding: ".5rem",
-          }}
-        >
-          {images.map((image, i) => (
-            <div key={i}>
-              <ImageDialog
-                image={image}
-                onDelete={async () => {
-                  setImages(images.filter((i) => i.base64 !== image.base64))
-                }}
-                onChange={(props) => {
-                  setImages(
-                    images.map((i) =>
-                      i.base64 == image.base64 ? { ...i, ...props } : i
-                    )
-                  )
-                }}
+      {unit && (
+        <>
+          <form onSubmit={handleSave}>
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                padding: ".5rem",
+              }}
+            >
+              <MultiLineInput
+                placeholder="メモ"
+                value={comment}
+                onChange={({ target: { value } }) => setComment(value)}
               />
+              <Button>保存</Button>
             </div>
-          ))}
-          <InputFileButton
-            onFileChange={handleChangeFile}
-            inputProps={{ accept: "image/png,image/jpeg,image/gif" }}
-          >
-            画像追加
-          </InputFileButton>
-        </div>
-        <div
-          style={{
-            overflowX: "scroll",
-          }}
-        >
-          <table
-            style={{
-              borderCollapse: "collapse",
-              width: "100%",
-            }}
-          >
-            <thead>
-              <tr>
-                <td>大項目</td>
-                <td>中項目</td>
-                <td>小項目</td>
-                <td>各部位</td>
-                <td>部所</td>
-                <td>ランク</td>
-              </tr>
-            </thead>
-            <tbody>
-              {(checkInputList ?? []).map((check, checkIndex) => (
-                <Fragment key={check.id}>
-                  <tr
-                    key={check.id}
-                    style={{
-                      borderBottom: "solid 1px rgba(0, 0, 0, 0.1)",
+            <div
+              style={{
+                alignItems: "end",
+                display: "flex",
+                gap: ".5rem",
+                padding: ".5rem",
+              }}
+            >
+              {images.map((image, i) => (
+                <div key={i}>
+                  <ImageDialog
+                    image={image}
+                    onDelete={async () => {
+                      setImages(images.filter((i) => i.base64 !== image.base64))
                     }}
-                  >
-                    <CheckListTD>
-                      <SmallInput
-                        value={check.largeCategory}
-                        onChange={({ target: { value } }) => {
-                          setCheckInputList([
-                            ...checkInputList.map((c) =>
-                              c.id == check.id && checkIndex == checkIndex
-                                ? { ...c, largeCategory: value }
-                                : c
-                            ),
-                          ])
-                        }}
-                      />
-                    </CheckListTD>
-                    <CheckListTD>
-                      <SmallInput
-                        value={check.mediumCategory}
-                        onChange={({ target: { value } }) => {
-                          setCheckInputList([
-                            ...checkInputList.map((c, i) =>
-                              c.id == check.id && i == checkIndex
-                                ? { ...c, mediumCategory: value }
-                                : c
-                            ),
-                          ])
-                        }}
-                      />
-                    </CheckListTD>
-                    <CheckListTD>
-                      <SmallInput
-                        value={check.smallCategory}
-                        onChange={({ target: { value } }) => {
-                          setCheckInputList([
-                            ...checkInputList.map((c, i) =>
-                              c.id == check.id && i == checkIndex
-                                ? { ...c, smallCategory: value }
-                                : c
-                            ),
-                          ])
-                        }}
-                      />
-                    </CheckListTD>
-                    <CheckListTD>
-                      <SmallInput
-                        value={check.part}
-                        onChange={({ target: { value } }) => {
-                          setCheckInputList([
-                            ...checkInputList.map((c, i) =>
-                              c.id == check.id && i == checkIndex
-                                ? { ...c, part: value }
-                                : c
-                            ),
-                          ])
-                        }}
-                      />
-                    </CheckListTD>
-                    <CheckListTD>
-                      <SmallInput
-                        value={check.detail}
-                        onChange={({ target: { value } }) => {
-                          setCheckInputList([
-                            ...checkInputList.map((c, i) =>
-                              c.id == check.id && i == checkIndex
-                                ? { ...c, detail: value }
-                                : c
-                            ),
-                          ])
-                        }}
-                      />
-                    </CheckListTD>
-                    <CheckListTD>
-                      <select
-                        value={check.rank}
-                        onChange={({ target: { value } }) => {
-                          setCheckInputList([
-                            ...checkInputList.map((c, i) =>
-                              c.id == check.id && i == checkIndex
-                                ? { ...c, rank: value }
-                                : c
-                            ),
-                          ])
-                        }}
-                      >
-                        <option />
-                        {RankList.map((rank) => (
-                          <option key={rank} value={rank}>
-                            {rank}
-                          </option>
-                        ))}
-                      </select>
-                    </CheckListTD>
-                    <CheckListTD>
-                      <p
-                        style={{
-                          cursor: "pointer",
-                        }}
-                        onClick={() => setEditedCheck(check)}
-                      >
-                        &#x1f4cd;
-                      </p>
-                    </CheckListTD>
-                    <CheckListTD>
-                      <p
-                        style={{
-                          color: "#277",
-                          cursor: "pointer",
-                          fontWeight: "bolder",
-                        }}
-                        onClick={() =>
-                          setCheckInputList([
-                            ...checkInputList.slice(0, checkIndex + 1),
-                            {
-                              ...check,
-                              id: generateIdFromCheck({
-                                ...check,
-                              }),
-                              rank: undefined,
-                              imageIds: undefined,
-                            },
-                            ...checkInputList.slice(checkIndex + 1),
-                          ])
-                        }
-                      >
-                        &#043;
-                      </p>
-                    </CheckListTD>
-                  </tr>
-                  <tr>
-                    <td colSpan={7}>
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: ".5rem",
-                        }}
-                      >
-                        {check.imageIds
-                          ?.map((id) => images.find((i) => i.id == id))
-                          .map((image) => (
-                            <img
-                              src={image?.base64}
-                              key={image?.id}
-                              style={{ height: "2rem" }}
-                            />
-                          ))}
-                      </div>
-                    </td>
-                  </tr>
-                </Fragment>
+                    onChange={(props) => {
+                      setImages(
+                        images.map((i) =>
+                          i.base64 == image.base64 ? { ...i, ...props } : i
+                        )
+                      )
+                    }}
+                  />
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </form>
-      {editedCheck && (
-        <CheckDialog
-          check={editedCheck}
-          images={unit?.images}
-          defaultPosition={{ ...house }}
-          onChangeCheck={({ position, check }) => {
-            setCheckInputList([
-              ...checkInputList.map((c) =>
-                c.id == check.id ? { ...c, ...position } : c
-              ),
-            ])
-            setCheckInputList(
-              checkInputList.map((c) => (c.id == check.id ? check : c))
-            )
-          }}
-          onClose={() => setEditedCheck(undefined)}
-        />
+              <InputFileButton
+                onFileChange={handleChangeFile}
+                inputProps={{ accept: "image/png,image/jpeg,image/gif" }}
+              >
+                画像追加
+              </InputFileButton>
+            </div>
+            <div
+              style={{
+                overflowX: "scroll",
+              }}
+            >
+              <table
+                style={{
+                  borderCollapse: "collapse",
+                  width: "100%",
+                }}
+              >
+                <thead>
+                  <tr>
+                    <td>大項目</td>
+                    <td>中項目</td>
+                    <td>小項目</td>
+                    <td>各部位</td>
+                    <td>部所</td>
+                    <td>ランク</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(checkInputList ?? []).map((check, checkIndex) => (
+                    <Fragment key={check.id}>
+                      <tr
+                        key={check.id}
+                        style={{
+                          borderBottom: "solid 1px rgba(0, 0, 0, 0.1)",
+                        }}
+                      >
+                        <CheckListTD>
+                          <SmallInput
+                            value={check.largeCategory}
+                            onChange={({ target: { value } }) => {
+                              setCheckInputList([
+                                ...checkInputList.map((c) =>
+                                  c.id == check.id && checkIndex == checkIndex
+                                    ? { ...c, largeCategory: value }
+                                    : c
+                                ),
+                              ])
+                            }}
+                          />
+                        </CheckListTD>
+                        <CheckListTD>
+                          <SmallInput
+                            value={check.mediumCategory}
+                            onChange={({ target: { value } }) => {
+                              setCheckInputList([
+                                ...checkInputList.map((c, i) =>
+                                  c.id == check.id && i == checkIndex
+                                    ? { ...c, mediumCategory: value }
+                                    : c
+                                ),
+                              ])
+                            }}
+                          />
+                        </CheckListTD>
+                        <CheckListTD>
+                          <SmallInput
+                            value={check.smallCategory}
+                            onChange={({ target: { value } }) => {
+                              setCheckInputList([
+                                ...checkInputList.map((c, i) =>
+                                  c.id == check.id && i == checkIndex
+                                    ? { ...c, smallCategory: value }
+                                    : c
+                                ),
+                              ])
+                            }}
+                          />
+                        </CheckListTD>
+                        <CheckListTD>
+                          <SmallInput
+                            value={check.part}
+                            onChange={({ target: { value } }) => {
+                              setCheckInputList([
+                                ...checkInputList.map((c, i) =>
+                                  c.id == check.id && i == checkIndex
+                                    ? { ...c, part: value }
+                                    : c
+                                ),
+                              ])
+                            }}
+                          />
+                        </CheckListTD>
+                        <CheckListTD>
+                          <SmallInput
+                            value={check.detail}
+                            onChange={({ target: { value } }) => {
+                              setCheckInputList([
+                                ...checkInputList.map((c, i) =>
+                                  c.id == check.id && i == checkIndex
+                                    ? { ...c, detail: value }
+                                    : c
+                                ),
+                              ])
+                            }}
+                          />
+                        </CheckListTD>
+                        <CheckListTD>
+                          <select
+                            value={check.rank}
+                            onChange={({ target: { value } }) => {
+                              setCheckInputList([
+                                ...checkInputList.map((c, i) =>
+                                  c.id == check.id && i == checkIndex
+                                    ? { ...c, rank: value }
+                                    : c
+                                ),
+                              ])
+                            }}
+                          >
+                            <option />
+                            {RankList.map((rank) => (
+                              <option key={rank} value={rank}>
+                                {rank}
+                              </option>
+                            ))}
+                          </select>
+                        </CheckListTD>
+                        <CheckListTD>
+                          <p
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setEditedCheck(check)}
+                          >
+                            &#x1f4cd;
+                          </p>
+                        </CheckListTD>
+                        <CheckListTD>
+                          <p
+                            style={{
+                              color: "#277",
+                              cursor: "pointer",
+                              fontWeight: "bolder",
+                            }}
+                            onClick={() =>
+                              setCheckInputList([
+                                ...checkInputList.slice(0, checkIndex + 1),
+                                {
+                                  ...check,
+                                  id: generateIdFromCheck({
+                                    ...check,
+                                  }),
+                                  rank: undefined,
+                                  imageIds: undefined,
+                                },
+                                ...checkInputList.slice(checkIndex + 1),
+                              ])
+                            }
+                          >
+                            &#043;
+                          </p>
+                        </CheckListTD>
+                      </tr>
+                      <tr>
+                        <td colSpan={7}>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: ".5rem",
+                            }}
+                          >
+                            {check.imageIds
+                              ?.map((id) => images.find((i) => i.id == id))
+                              .map((image) => (
+                                <figure
+                                  key={image?.id}
+                                  style={{
+                                    background: `url(${image?.base64})`,
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                    height: "2rem",
+                                    width: "3rem",
+                                  }}
+                                />
+                              ))}
+                          </div>
+                        </td>
+                      </tr>
+                    </Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </form>
+          {editedCheck && (
+            <CheckDialog
+              check={editedCheck}
+              images={unit?.images}
+              defaultPosition={{ ...house }}
+              unit={unit}
+              onChangeCheck={({ position, check }) => {
+                setCheckInputList([
+                  ...checkInputList.map((c) =>
+                    c.id == check.id ? { ...c, ...position } : c
+                  ),
+                ])
+                setCheckInputList(
+                  checkInputList.map((c) => (c.id == check.id ? check : c))
+                )
+              }}
+              onClose={() => setEditedCheck(undefined)}
+            />
+          )}
+        </>
       )}
     </>
   )
