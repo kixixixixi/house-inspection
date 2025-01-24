@@ -10,6 +10,7 @@ import { LinkButton } from "@/components/elements/link"
 import Link from "next/link"
 import { CheckListImport } from "@/components/modules/check-list-import"
 import { api } from "@/lib/api"
+import { DownloadCheckListButton } from "@/components/modules/download-check-list-button"
 
 const RowSection: FC<ComponentProps<"section">> = ({ style, ...props }) => (
   <section
@@ -110,21 +111,27 @@ const HouseIdPage: NextPage<{ params: Promise<{ id: string }> }> = (props) => {
               <div>
                 <HouseDelete houseId={house.id} />
               </div>
-            </div>
-            <div>
-              <CheckListImport
-                onSubmit={async (checkListTemplate) => {
-                  const response = await (
-                    await api()
-                  ).patch(`/api/house/${house.id}`, {
-                    json: { checkListTemplate },
-                  })
-                  const { house: newHouse } = await response.json<{
-                    house: House
-                  }>()
-                  setHouse({ ...house, ...newHouse })
-                }}
-              />
+              <div>
+                <DownloadCheckListButton
+                  units={house.units ?? []}
+                  house={house}
+                />
+              </div>
+              <div>
+                <CheckListImport
+                  onSubmit={async (checkListTemplate) => {
+                    const response = await (
+                      await api()
+                    ).patch(`/api/house/${house.id}`, {
+                      json: { checkListTemplate },
+                    })
+                    const { house: newHouse } = await response.json<{
+                      house: House
+                    }>()
+                    setHouse({ ...house, ...newHouse })
+                  }}
+                />
+              </div>
             </div>
             <div
               style={{

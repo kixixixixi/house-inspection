@@ -32,7 +32,7 @@ const HouseIdUnitPage: NextPage<{
         </hgroup>
         <div style={{ display: "flex", gap: ".5rem", padding: ".5rem" }}>
           <UnitDelete unitId={unit.id} houseId={unit.houseId} />
-          <DownloadCheckListButton unit={unit} />
+          <DownloadCheckListButton units={[unit]} house={unit.house} />
         </div>
         <UnitForm
           house={unit.house}
