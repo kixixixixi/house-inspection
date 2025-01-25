@@ -55,9 +55,8 @@ const Home: NextPage = () => {
           alignItems: "center",
           display: "flex",
           flexFlow: "column",
-          height: "100%",
           justifyContent: "space-evenly",
-          padding: "4rem 1rem",
+          padding: "1rem",
         }}
       >
         <h1
