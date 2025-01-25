@@ -19,7 +19,7 @@ export const CheckDialog: FC<
       position: { latitude: number; longitude: number }
       check: PrismaJson.Check
     }) => void
-    unit: Unit
+    unit?: Unit
     onClose: () => void
   }
 > = ({
@@ -42,6 +42,7 @@ export const CheckDialog: FC<
   const [editedCheck, setEditedCheck] = useState<PrismaJson.Check>(check)
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files[0]) return
+    if (!unit) return
     const file = e.target.files[0]
     const base64 = await resizeImage(file, { type: true })
     if (!base64) return
