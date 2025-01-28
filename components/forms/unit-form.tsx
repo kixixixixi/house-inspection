@@ -193,6 +193,8 @@ export const UnitForm: FC<
             >
               <thead>
                 <tr>
+                  <td></td>
+                  <td></td>
                   <td>大項目</td>
                   <td>中項目</td>
                   <td>小項目</td>
@@ -210,6 +212,41 @@ export const UnitForm: FC<
                         borderBottom: "solid 1px rgba(0, 0, 0, 0.1)",
                       }}
                     >
+                      <CheckListTD>
+                        <p
+                          style={{
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setEditedCheck(check)}
+                        >
+                          &#x1f4cd;
+                        </p>
+                      </CheckListTD>
+                      <CheckListTD>
+                        <p
+                          style={{
+                            color: "#277",
+                            cursor: "pointer",
+                            fontWeight: "bolder",
+                          }}
+                          onClick={() =>
+                            setCheckInputList([
+                              ...checkInputList.slice(0, checkIndex + 1),
+                              {
+                                ...check,
+                                id: generateIdFromCheck({
+                                  ...check,
+                                }),
+                                rank: undefined,
+                                imageIds: undefined,
+                              },
+                              ...checkInputList.slice(checkIndex + 1),
+                            ])
+                          }
+                        >
+                          &#043;
+                        </p>
+                      </CheckListTD>
                       <CheckListTD>
                         <SmallInput
                           value={check.largeCategory}
@@ -300,41 +337,6 @@ export const UnitForm: FC<
                             </option>
                           ))}
                         </select>
-                      </CheckListTD>
-                      <CheckListTD>
-                        <p
-                          style={{
-                            cursor: "pointer",
-                          }}
-                          onClick={() => setEditedCheck(check)}
-                        >
-                          &#x1f4cd;
-                        </p>
-                      </CheckListTD>
-                      <CheckListTD>
-                        <p
-                          style={{
-                            color: "#277",
-                            cursor: "pointer",
-                            fontWeight: "bolder",
-                          }}
-                          onClick={() =>
-                            setCheckInputList([
-                              ...checkInputList.slice(0, checkIndex + 1),
-                              {
-                                ...check,
-                                id: generateIdFromCheck({
-                                  ...check,
-                                }),
-                                rank: undefined,
-                                imageIds: undefined,
-                              },
-                              ...checkInputList.slice(checkIndex + 1),
-                            ])
-                          }
-                        >
-                          &#043;
-                        </p>
                       </CheckListTD>
                     </tr>
                     <tr>
